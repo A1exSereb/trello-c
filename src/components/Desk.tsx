@@ -1,14 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Board from './Board'
-
-
-const Container = styled.div`
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    padding: 15px;
-`
+import {Container} from './styles/Desk'
 
 //data comes from app?
 export const Desk = (props:any)=>{
@@ -18,17 +11,16 @@ export const Desk = (props:any)=>{
         <Container className='desk boards__container'>
             <Board
             id={1}
-            title={'1 Board'}/>
+            title={'TODO'}/>
             <Board
             id={2}
-            title={'2 Board'}/>
+            title={' In Progress'}/>
             <Board
             id={3}
-            title={'3 Board'}/>
+            title={'Testing'}/>
             <Board
             id={4}
-            title={'4 Board'}/>
+            title={'Done'}/>
         </Container>
     )
 }
-//react-id-generator
