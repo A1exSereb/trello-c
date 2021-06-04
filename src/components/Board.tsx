@@ -1,6 +1,7 @@
 import React,{Component, SyntheticEvent} from 'react';
 import styled from 'styled-components';
 import BoardItem from './BoardItem';
+import AddForm from './forms/AddForm';
 
 
 const StyledBoard = styled.div`
@@ -39,10 +40,9 @@ let i = 2;
 export default class Board extends Component<BoardProps,BoardState>{
     constructor(props : BoardProps){
         super(props);
-        this.onSubmit=this.onSubmit.bind(this)
-        this.handlerInput =this.handlerInput.bind(this)
-        this.AddForm=this.AddForm.bind(this)
         this.deleteRecord = this.deleteRecord.bind(this)
+        this.getNewRecord = this.getNewRecord.bind(this)
+        this.showAdd = this.showAdd.bind(this)
     }
     state ={
         id: this.props.id,
@@ -51,39 +51,25 @@ export default class Board extends Component<BoardProps,BoardState>{
         records:[{id: 1,label:'todo1'},{id: 2,label:'todo2'}],
         newRecord:''
     }
-    handlerInput =(e: React.ChangeEvent<HTMLInputElement>): void=>{
+    closeForm(){
         this.setState({
-            newRecord: e.currentTarget.value
-        })
-        console.log(this.state.newRecord)
+            add:false,
+            newRecord:''})
     }
-    onSubmit(e:any){
-        e.preventDefault()
-        const {newRecord,records} = this.state
-        i++
-        const item = records.concat([{id: i, label:newRecord}])
-        console.log(item)
-        this.setState({
+    getNewRecord(newRecord:any){
+        const {records} = this.state
+        if(newRecord !== ''){
+            ++i
+            const item = records.concat([{id: i, label:newRecord}])
+            console.log(item)
+            this.setState({
             records:item,
-            newRecord:'',
             add:false
-        })
-        
+             })
+        }
     }
-    AddForm = ()=>{
-        const {newRecord} = this.state
-        return (
-            <form onSubmit={this.onSubmit}>
-                <input 
-                value={newRecord} 
-                onChange={this.handlerInput} 
-                type="text" 
-                />
-                <button type='submit'>Подтвердить</button>
-                <button onClick={() => this.setState({add:false,
-                newRecord:''})}>Отмена</button>
-            </form>
-        )
+    showAdd(){
+        this.setState({add:false})
     }
     deleteRecord(id:number){
         this.setState(({records}) =>{
@@ -95,7 +81,7 @@ export default class Board extends Component<BoardProps,BoardState>{
     }
 
     render(){
-        const {title,id,add,records} = this.state
+        const {title,id,add,records,newRecord} = this.state
         return(
             <StyledBoard key={id}>
                 <StyledTitle>{title}</StyledTitle>
@@ -104,11 +90,16 @@ export default class Board extends Component<BoardProps,BoardState>{
                     key={Math.random()}
                     records={records}
                     deleteRecord={this.deleteRecord}
+                    editRecord={this.editRecord}
                     />
                 </StyledUl>
                 {
-                add?<this.AddForm/>
-                :<StyledAddItem onClick={()=>this.setState({add:!add})}>Add</StyledAddItem>}
+                add?<AddForm
+                    getNewRecord={this.getNewRecord}
+                    show={true}
+                    showAdd={this.showAdd}
+                />
+                :<StyledAddItem onClick={()=>this.setState({add:true})}>Add</StyledAddItem>}
             </StyledBoard>
         )
     }
