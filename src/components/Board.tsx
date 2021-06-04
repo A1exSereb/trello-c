@@ -1,7 +1,7 @@
 import React,{Component, SyntheticEvent} from 'react';
 import styled from 'styled-components';
 import BoardItem from './BoardItem';
-import AddForm from './forms/AddForm';
+import AddForm from './forms/InputForm';
 
 
 const StyledBoard = styled.div`
@@ -42,6 +42,7 @@ export default class Board extends Component<BoardProps,BoardState>{
         super(props);
         this.deleteRecord = this.deleteRecord.bind(this)
         this.getNewRecord = this.getNewRecord.bind(this)
+        this.editRecord = this.editRecord.bind(this)
         this.showAdd = this.showAdd.bind(this)
     }
     state ={
@@ -56,12 +57,13 @@ export default class Board extends Component<BoardProps,BoardState>{
             add:false,
             newRecord:''})
     }
-    getNewRecord(newRecord:any){
+    getNewRecord(newValue:any){
         const {records} = this.state
-        if(newRecord !== ''){
+        if(newValue !== ''){
             ++i
-            const item = records.concat([{id: i, label:newRecord}])
-            console.log(item)
+
+            const item = records.concat([{id: i, label:newValue}])
+
             this.setState({
             records:item,
             add:false
@@ -76,10 +78,19 @@ export default class Board extends Component<BoardProps,BoardState>{
             return {records : records.filter(item => item.id !== id)};
           });
     }
-    editRecord(){
+    editRecord(id:number,newValue?:any){
+        const {records} = this.state
+        if(newValue !== ''){
 
+            const item = records.map((item) =>({
+                ...item,
+                label: item.id === id? newValue:item.label
+            }))
+
+            this.setState({
+            records:item})
+        }    
     }
-
     render(){
         const {title,id,add,records,newRecord} = this.state
         return(
@@ -98,6 +109,7 @@ export default class Board extends Component<BoardProps,BoardState>{
                     getNewRecord={this.getNewRecord}
                     show={true}
                     showAdd={this.showAdd}
+                    action={'add'}
                 />
                 :<StyledAddItem onClick={()=>this.setState({add:true})}>Add</StyledAddItem>}
             </StyledBoard>

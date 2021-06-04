@@ -16,6 +16,7 @@ export default class Desk extends Component<DeskProps>{
         const boards = data.map((item:any )=>{
             return(
                 <Board
+                key={item.id}
                 id={item.id}
                 title={item.title}/>
             )
