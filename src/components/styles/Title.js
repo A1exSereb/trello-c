@@ -5,5 +5,5 @@ export const StyledTitle = styled.h2`
   word-wrap: break-word;
   margin-top: 0;
   margin-bottom: 5px;
-  color:#fff;
+  color:#000;
 `

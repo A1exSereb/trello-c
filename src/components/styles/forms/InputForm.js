@@ -15,11 +15,14 @@ const StyledButton = styled.button`
   border: 1px solid #000;
   padding: 3px;
   cursor: pointer;
+  background-color:#000;
+  color:#fff;
 `
 export const OkButton = styled(StyledButton)`
   border-right:none;
   :hover{
-    background-color: #6f0
+    background-color:#fff;
+  color:#000;
   }
 `
 export const CancelButton = styled(StyledButton)`
@@ -27,6 +30,7 @@ export const CancelButton = styled(StyledButton)`
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
   :hover{
-    background-color: #ff0000;
+    background-color:#fff;
+  color:#000;
   }
 `
