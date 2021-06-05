@@ -23,12 +23,14 @@ export default class Desk extends Component<DeskProps,DeskState>{
     getNewTitle(id:number,newValue?:any){
         const{data} = this.state
         
-        this.setState({
-            data:data.map((item) =>({
-                ...item,
-                title: item.id === id? newValue:item.title
-            }))
-        })
+        if(newValue !== ''){
+            this.setState({
+                data:data.map((item) =>({
+                    ...item,
+                    title: item.id === id? newValue:item.title
+                }))
+            })
+        }
         
     }
     componentDidUpdate(){

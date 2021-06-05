@@ -50,9 +50,9 @@ class Authorization extends Component{
                     <>
                     <Div className="authorization__container">
                         <Form onSubmit={this.onSubmit} className="authorization__form">
-                            <Input className='authorization__input' value={name} type='text' placeholder='Как вас зовут?'
+                            <Input className='authorization__input' value={name} type='text' placeholder='What is your name?'
                             onChange={this.handlerInput}/>
-                            <Button type='submit'>Подтвердить</Button>
+                            <Button type='submit'>Sign In</Button>
                         </Form>
                     </Div>
                     </>

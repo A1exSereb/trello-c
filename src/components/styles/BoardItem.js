@@ -6,17 +6,16 @@ export const StyledImage = styled.img`
     height: 13px;
     margin-left: 5px;
     margin-top: 3px;
+    cursor: pointer;
 
-    
-    :hover{
-        cursor: pointer;
-        fill: #ff0000;
-    }
 `
 export const Li=styled.li`
     list-style: none;
     word-wrap: break-word;
+    border: 1px solid #000;
     text-align: left;
-    border-top: 1px solid #000;
-    padding: 3px 0 3px 0;
+    margin-top: 1px;
+    padding: 3px;
+    border-radius: 5px;
+    background-color: #fff;
 `

@@ -5,10 +5,10 @@ position: absolute;
     margin: 0 auto;
     width: 100%;
     height: 100%;
-    padding-top: 40%;
+    padding-top: 60px;
     overflow: hidden;
     background-color: #000;
-    padding: 60px;
+    
 `
 export const Form = styled.form`
     margin: 0 auto;
@@ -27,11 +27,19 @@ font-size: large;
 
 `
 export const Button = styled.button`
-    border: none;
-    margin-top: 5px;
+margin-top: 4px;
+     border: none;
+    display: block;
+    text-align: center;
+    background-color: inherit;
     cursor: pointer;
+    color:#000;
+    width: 30%;
+    height: 40px;
     :hover{
-        background-color: #fff;
-        color: #000;
+        border: 1px solid #000;
+    border-radius: 5px;
+    background-color: #6f0;
+    color:#000;
     }
 `

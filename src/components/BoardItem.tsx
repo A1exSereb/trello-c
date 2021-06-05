@@ -6,7 +6,7 @@ import {Li, StyledImage} from './styles/BoardItem'
 
 
 interface BoardItemProps{
-    records: Array<any>,
+    records: Array<Object>,
     deleteRecord: Function,
     editRecord: Function,
 }

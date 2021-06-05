@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import {StyledInput,OkButton,CancelButton} from '../styles/forms/InputForm'
 
 interface AddFormProps{
   show:boolean,
-  getNewRecord:any,
-  showAdd:any,
+  getNewRecord:Function,
+  showAdd:Function,
   action:string,
   editingId?:number|null
 }
@@ -43,13 +44,13 @@ export default class AddForm extends Component<AddFormProps>{
     if(action === 'add'){
       const ifshow = (
         <form onSubmit={this.onSubmit}>
-              <input
+              <StyledInput
               value={inputValue} 
               onChange={this.handlerInput} 
               type="text" 
               />
-              <button onClick={()=>getNewRecord(inputValue)}>Подтвердить</button>
-              <button onClick={this.onClose}>Отмена</button>
+              <OkButton onClick={()=>getNewRecord(inputValue)}>Yes</OkButton>
+              <CancelButton onClick={this.onClose}>No</CancelButton>
           </form>
         )
           return(
@@ -59,13 +60,13 @@ export default class AddForm extends Component<AddFormProps>{
     if(action === 'edit'){
       return(
         <form onSubmit={this.onSubmit}>
-              <input
+              <StyledInput
               value={inputValue} 
               onChange={this.handlerInput} 
               type="text" 
               />
-              <button onClick={()=>getNewRecord(editingId,inputValue)}>Подтвердить</button>
-              <button onClick={this.onClose}>Отмена</button>
+              <OkButton onClick={()=>getNewRecord(editingId,inputValue)}>Yes</OkButton>
+              <CancelButton onClick={this.onClose}>No</CancelButton>
           </form>
       )
     }

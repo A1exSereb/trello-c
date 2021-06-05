@@ -79,7 +79,7 @@ export default class Board extends Component<BoardProps,BoardState>{
         console.log('Board update')
     }
     render(){
-        const {title,id,add,records,newRecord} = this.state
+        const {title,id,add,records} = this.state
         const{} = this.props
         return(
             <StyledBoard key={id}>
