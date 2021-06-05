@@ -55,7 +55,10 @@ export default class BoardTitle extends Component<TitleProps,TitleState>{
                           )
       }else{
           return(
-             <StyledTitle onDoubleClick={()=>this.onEdit(id)}>{title}</StyledTitle>
+             <StyledTitle 
+             className='board__title'
+             onDoubleClick={()=>this.onEdit(id)}>
+              {title}</StyledTitle>
           )
       }
       

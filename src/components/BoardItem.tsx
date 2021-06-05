@@ -48,7 +48,10 @@ export default class BoardItem extends Component<BoardItemProps,BoardItemState>{
             const list = records.map(item =>{
                 const{id,label} = item;
                 if(item.id === editingId){
-                    return (<Li key={id}>
+                    return (<Li 
+                            key={id}
+                            className='board__item'
+                            >
                             <AddForm
                             show={true}
                             action={'edit'}
@@ -58,15 +61,19 @@ export default class BoardItem extends Component<BoardItemProps,BoardItemState>{
                             </Li>)
                 }else{
                     return (
-                    <Li key={id}
-                    className='board__item'>
-
-                    {label}
-
-                    <StyledImage onClick={()=>this.onEdit(id)} src={EditIcon} alt="edit" />
-                    <StyledImage onClick={() => deleteRecord(id)} src={TrashIcon} alt="delete" />
-
-                    </Li>
+                        <Li 
+                        key={id}
+                        className='board__item'>
+                        {label}
+                        <StyledImage
+                        className='item__button-edit'
+                        onClick={()=>this.onEdit(id)} 
+                        src={EditIcon} alt="edit" />
+                        <StyledImage
+                        className='item__button-delete'
+                        onClick={() => deleteRecord(id)} 
+                        src={TrashIcon} alt="delete" />
+                        </Li>
                 )
                 }
             });
@@ -80,11 +87,18 @@ export default class BoardItem extends Component<BoardItemProps,BoardItemState>{
             const list = records.map(item =>{
                 const{id,label} = item;
                return (
-                    <Li key={id}
+                    <Li 
+                    key={id}
                     className='board__item'>
                     {label}
-                    <StyledImage onClick={()=>this.onEdit(id)} src={EditIcon} alt="edit" />
-                    <StyledImage onClick={() => deleteRecord(id)} src={TrashIcon} alt="delete" />
+                    <StyledImage
+                    className='item__button-edit'
+                    onClick={()=>this.onEdit(id)} 
+                    src={EditIcon} alt="edit" />
+                    <StyledImage
+                    className='item__button-delete'
+                    onClick={() => deleteRecord(id)} 
+                    src={TrashIcon} alt="delete" />
                     </Li>
                 )
             });

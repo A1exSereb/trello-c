@@ -82,13 +82,16 @@ export default class Board extends Component<BoardProps,BoardState>{
         const {title,id,add,records} = this.state
         const{} = this.props
         return(
-            <StyledBoard key={id}>
+            <StyledBoard 
+            className='board'
+            key={id}>
                 <Title
                 key={Math.random()}
                 title={title}
                 id={id}
                 editTitle={this.editTitle}/>
-                <StyledUl >
+                <StyledUl 
+                className='board__list'>
                     <BoardItem
                     key={Math.random()}
                     records={records}

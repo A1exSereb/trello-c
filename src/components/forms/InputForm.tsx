@@ -59,14 +59,21 @@ export default class AddForm extends Component<AddFormProps>{
     }
     if(action === 'edit'){
       return(
-        <form onSubmit={this.onSubmit}>
+        <form 
+        className='edit__form'
+        onSubmit={this.onSubmit}>
               <StyledInput
+              className='edit__input'
               value={inputValue} 
               onChange={this.handlerInput} 
               type="text" 
               />
-              <OkButton onClick={()=>getNewRecord(editingId,inputValue)}>Yes</OkButton>
-              <CancelButton onClick={this.onClose}>No</CancelButton>
+              <OkButton
+              className='edit__button-submit' 
+              onClick={()=>getNewRecord(editingId,inputValue)}>Yes</OkButton>
+              <CancelButton 
+              className='edit__button-cancel'
+              onClick={this.onClose}>No</CancelButton>
           </form>
       )
     }
