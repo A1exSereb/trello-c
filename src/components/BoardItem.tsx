@@ -55,6 +55,9 @@ export default class BoardItem extends Component<BoardItemProps,BoardItemState>{
             editing:false
         })
     }
+    componentDidUpdate(){
+        console.log('Board Item update')
+    }
     render(){
         const{records,editing,editingId} = this.state
         const{deleteRecord,editRecord} = this.props

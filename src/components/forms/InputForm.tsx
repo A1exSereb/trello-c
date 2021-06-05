@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 interface AddFormProps{
   show:boolean,
-  getNewRecord?:any,
-  showAdd?:any,
+  getNewRecord:any,
+  showAdd:any,
   action:string,
   editingId?:number|null
 }
@@ -28,11 +28,16 @@ export default class AddForm extends Component<AddFormProps>{
   onSubmit(e:any){
     e.preventDefault()
     this.setState({show:false, inputValue:''})
+    console.log('Submited')
+    this.props.showAdd()
   }
   onClose(){
     this.setState({show:false, inputValue:''})
     this.props.showAdd()
   }
+  componentDidUpdate(){
+    console.log('Input form update')
+}
   render(){
     const{getNewRecord,action,editingId} = this.props
     const{inputValue,show} = this.state
