@@ -1,11 +1,8 @@
 import React, { Component } from 'react'
-import styled from 'styled-components'
 import AddForm from './forms/InputForm'
+import {StyledTitle} from './styles/Title'
 
 
-const StyledTitle = styled.h2`
-  cursor: pointer;
-`
 interface TitleProps{
   title:string,
   editTitle:Function,

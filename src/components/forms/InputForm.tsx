@@ -1,6 +1,5 @@
-import { eventNames } from 'process';
 import React, { Component } from 'react';
-import styled from 'styled-components';
+
 interface AddFormProps{
   show:boolean,
   getNewRecord:any,

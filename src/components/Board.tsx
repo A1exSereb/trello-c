@@ -1,30 +1,9 @@
 import React,{Component, SyntheticEvent} from 'react';
-import styled from 'styled-components';
 import BoardItem from './BoardItem';
 import AddForm from './forms/InputForm';
 import Title from './Title'
+import {StyledBoard, StyledUl,StyledAddItem} from './styles/Board'
 
-const StyledBoard = styled.div`
-    width: 200px;
-    padding: 10px;
-    display: inline-block;
-    vertical-align: top;
-    margin-top: 15px;
-    margin-left: 10px;
-    border-radius: 10px;
-    border:3px solid black;
-    align-items: left;
-    margin-right: 15px;
-`
-const StyledUl = styled.ul`
-    padding: 0;
-`
-const StyledAddItem = styled.button`
-    border: none;
-    text-align: center;
-    background-color: inherit;
-    cursor: pointer;
-`
 
 //container width ~300px
 interface BoardProps{

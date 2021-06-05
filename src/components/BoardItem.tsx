@@ -1,28 +1,10 @@
 import React,{Component} from 'react';
-import styled from 'styled-components';
 import TrashIcon from '../icons/delete-icon.svg'
 import EditIcon from '../icons/edit-icon.svg'
 import AddForm from './forms/InputForm'
+import {Li, StyledImage} from './styles/BoardItem'
 
-const StyledImage = styled.img`
-    width:13px;
-    height: 13px;
-    margin-left: 5px;
-    margin-top: 3px;
 
-    
-    :hover{
-        cursor: pointer;
-        fill: #ff0000;
-    }
-`
-const Li=styled.li`
-    list-style: none;
-    word-wrap: break-word;
-    text-align: left;
-    border-top: 1px solid #000;
-    padding: 3px 0 3px 0;
-`
 interface BoardItemProps{
     records: Array<any>,
     deleteRecord: Function,
