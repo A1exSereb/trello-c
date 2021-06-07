@@ -1,27 +1,26 @@
 import React from 'react';
 import './App.css';
-import styled from 'styled-components';
-import Authorization from './components/Authorization';
-import Desk from './components/Desk';
+import Authorization from './components/AuthorizationHooks';
+import Board from './components/Board';
+import {data} from './data/data'
 
 
 function App() {
-  if(localStorage.getItem('name') !== null){
-    return (
-      <div className="App">
-        <Desk 
-        />
-      </div>
-    );
-  }else{
-    return (
-      <div className="App">
-        <Authorization/>
-        <Desk
-        />
-      </div>
-    );
-  }
+
+  const boards = data.map((item:any )=>{return (
+                <Board
+                key={Math.random()}
+                id={item.id}
+                title={item.title}
+                />)
+        })
+
+  return (
+    <div className="App">
+      {localStorage.getItem('name') !== null?null:<Authorization/>}
+      {boards}
+    </div>
+  );
 }
 
 export default App;

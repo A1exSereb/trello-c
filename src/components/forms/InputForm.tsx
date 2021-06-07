@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
-import {StyledInput,OkButton,CancelButton} from '../styles/forms/InputForm'
+import React, { useState } from 'react';
+import styled from 'styled-components';
+
 
 interface AddFormProps{
   show:boolean,
@@ -9,73 +10,82 @@ interface AddFormProps{
   editingId?:number|null
 }
 const i = 0;
-export default class AddForm extends Component<AddFormProps>{
-  constructor(props:any){
-    super(props)
-    this.handlerInput = this.handlerInput.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
-    this.onClose = this.onClose.bind(this);
-  }
-  state = {
-    inputValue:'',
-    show:this.props.show
-  }
-  handlerInput =(e: React.ChangeEvent<HTMLInputElement>): void=>{
-    this.setState({
-        inputValue: e.target.value
-    })
+export default function AddForm({show,getNewRecord,showAdd,action,editingId}:AddFormProps):any{
+  
+  const [inputValue,setInputValue] = useState(''),
+        [isShow,setIsShow] = useState(show);
+
+  const handlerInput =(e: React.ChangeEvent<HTMLInputElement>): void=>{
+    setInputValue(e.target.value)
   } 
-  onSubmit(e:any){
+
+  const onSubmit = (e:any):void=>{
     e.preventDefault()
-    this.setState({show:false, inputValue:''})
-    console.log('Submited')
-    this.props.showAdd()
+    setIsShow(false)
+    showAdd()
   }
-  onClose(){
-    this.setState({show:false, inputValue:''})
-    this.props.showAdd()
+  const onClose =() =>{
+    setIsShow(false);
+    showAdd();
   }
-  componentDidUpdate(){
-    console.log('Input form update')
+  
+  if(!isShow) return null
+
+  return(
+    <form
+    className='inputform'
+    onSubmit={onSubmit}>
+    <StyledInput
+    className='inputform__input'
+    value={inputValue} 
+    onChange={handlerInput} 
+    type="text" 
+    />
+    {action === 'add'?
+    (<OkButton
+      className='inputform__button-add' 
+      onClick={()=>getNewRecord(inputValue)}>Yes</OkButton>):
+    (<OkButton 
+      className='inputform__button-edit' 
+      onClick={()=>getNewRecord(editingId,inputValue)}>Yes</OkButton>)}
+    <CancelButton 
+    className='inputform__button-close'
+    onClick={onClose}>No</CancelButton>
+</form>
+  )
 }
-  render(){
-    const{getNewRecord,action,editingId} = this.props
-    const{inputValue,show} = this.state
-    if(action === 'add'){
-      const ifshow = (
-        <form onSubmit={this.onSubmit}>
-              <StyledInput
-              value={inputValue} 
-              onChange={this.handlerInput} 
-              type="text" 
-              />
-              <OkButton onClick={()=>getNewRecord(inputValue)}>Yes</OkButton>
-              <CancelButton onClick={this.onClose}>No</CancelButton>
-          </form>
-        )
-          return(
-            show?ifshow:false
-          )
-    }
-    if(action === 'edit'){
-      return(
-        <form 
-        className='edit__form'
-        onSubmit={this.onSubmit}>
-              <StyledInput
-              className='edit__input'
-              value={inputValue} 
-              onChange={this.handlerInput} 
-              type="text" 
-              />
-              <OkButton
-              className='edit__button-submit' 
-              onClick={()=>getNewRecord(editingId,inputValue)}>Yes</OkButton>
-              <CancelButton 
-              className='edit__button-cancel'
-              onClick={this.onClose}>No</CancelButton>
-          </form>
-      )
-    }
+//styles
+const StyledInput = styled.input`
+  background-color: #D7D7D7;
+  width: 65%;
+  border: 1px solid #000;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  padding: 3px;
+  border-right: none;
+  outline:none;
+`
+
+const StyledButton = styled.button`
+  border: 1px solid #000;
+  padding: 3px;
+  cursor: pointer;
+  background-color:#000;
+  color:#fff;
+`
+const OkButton = styled(StyledButton)`
+  border-right:none;
+  :hover{
+    background-color:#fff;
+  color:#000;
   }
-}
+`
+const CancelButton = styled(StyledButton)`
+  border-left:none;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  :hover{
+    background-color:#fff;
+  color:#000;
+  }
+`
