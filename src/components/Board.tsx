@@ -56,7 +56,7 @@ export default function Board({ id, title }: BoardProps): any {
       setBoardRecords(
         boardRecords.map((item) => ({
           ...item,
-          label: item.id === id ? newValue : item.description,
+          description: item.id === id ? newValue : item.description,
         }))
       );
     }
