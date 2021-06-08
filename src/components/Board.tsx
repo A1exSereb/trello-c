@@ -19,10 +19,18 @@ export default function Board({ id, title }: BoardProps): any {
   const [boardRecords, setBoardRecords] = useState(records);
   const [add, setAdd] = useState(false);
 
+  const getAuthor = () => {
+    const author = localStorage.getItem('name');
+    return author || '';
+  };
+
   const getNewRecord = (newValue: string) => {
     if (newValue !== '') {
       ++i;
-      const newArr = [...boardRecords, { id: i, label: newValue }];
+      const newArr = [
+        ...boardRecords,
+        { id: i, label: newValue, author: getAuthor(), description: '' },
+      ];
       setBoardRecords(newArr);
       setAdd(false);
     }
@@ -43,6 +51,17 @@ export default function Board({ id, title }: BoardProps): any {
     }
   };
 
+  const editDescription = (id: number, newValue: string) => {
+    if (newValue !== '') {
+      setBoardRecords(
+        boardRecords.map((item) => ({
+          ...item,
+          label: item.id === id ? newValue : item.description,
+        }))
+      );
+    }
+  };
+
   const editTitle = (id: number, newValue: string) => {
     setBoardTitle(newValue);
   };
@@ -53,8 +72,11 @@ export default function Board({ id, title }: BoardProps): any {
         key={Math.random()}
         id={item.id}
         label={item.label}
+        author={item.author}
+        description={item.description}
         deleteRecord={deleteRecord}
         editRecord={editRecord}
+        editDescription={editDescription}
       />
     );
   });

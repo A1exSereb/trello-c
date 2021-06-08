@@ -3,16 +3,29 @@ import TrashIcon from '../icons/delete-icon.svg';
 import EditIcon from '../icons/edit-icon.svg';
 import AddForm from './forms/InputForm';
 import styled from 'styled-components';
+import Modal from './modal/Modal';
 
 interface BoardItemProps {
   id: number;
   label: string;
+  author: string;
+  description: string;
   deleteRecord: Function;
   editRecord: Function;
+  editDescription: Function;
 }
 
-export default function BoardItem({ id, label, deleteRecord, editRecord }: BoardItemProps): any {
+export default function BoardItem({
+  id,
+  label,
+  author,
+  description,
+  deleteRecord,
+  editRecord,
+  editDescription,
+}: BoardItemProps): any {
   const [editing, setEditing] = useState(false);
+  const [modalActive, setModalActive] = useState(false);
 
   return editing ? (
     <AddForm
@@ -23,7 +36,7 @@ export default function BoardItem({ id, label, deleteRecord, editRecord }: Board
       getNewRecord={editRecord}
     />
   ) : (
-    <Li key={id} className="board__item">
+    <Li key={id} className="board__item" onDoubleClick={() => setModalActive(true)}>
       {label}
       <StyledImage
         className="item__button-edit"
@@ -36,6 +49,15 @@ export default function BoardItem({ id, label, deleteRecord, editRecord }: Board
         onClick={() => deleteRecord(id)}
         src={TrashIcon}
         alt="delete"
+      />
+      <Modal
+        active={modalActive}
+        setActive={setModalActive}
+        author={author}
+        description={description}
+        editDescription={editDescription}
+        label={label}
+        id={id}
       />
     </Li>
   );

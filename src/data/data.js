@@ -5,8 +5,8 @@ export const data = [
   { id: 4, title: 'Done' },
 ];
 export const records = [
-  { id: 1, label: 'todo1' },
-  { id: 2, label: 'todo2' },
+  { id: 1, label: 'todo1', author: 'test', description: 'descr' },
+  { id: 2, label: 'todo2', author: 'test', description: 'no descr' },
 ];
 
 export const comments = [{ id: 1, name: 'Oleg', label: 'comment1' }];
