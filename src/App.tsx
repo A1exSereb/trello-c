@@ -1,23 +1,17 @@
 import React from 'react';
 import './App.css';
-import Authorization from './components/AuthorizationHooks';
+import Authorization from './components/Authorization';
 import Board from './components/Board';
-import {data} from './data/data'
-
+import { data } from './data/data';
 
 function App() {
-
-  const boards = data.map((item:any )=>{return (
-                <Board
-                key={Math.random()}
-                id={item.id}
-                title={item.title}
-                />)
-        })
+  const boards = data.map((item: any) => {
+    return <Board key={Math.random()} id={item.id} title={item.title} />;
+  });
 
   return (
     <div className="App">
-      {localStorage.getItem('name') !== null?null:<Authorization/>}
+      {localStorage.getItem('name') !== null ? null : <Authorization />}
       {boards}
     </div>
   );
