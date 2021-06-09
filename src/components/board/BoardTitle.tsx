@@ -19,7 +19,7 @@ export default function Title({ title, id }: TitleProps): JSX.Element {
     editTitle(id, boardTitle);
     setEditBoardTitle(false);
   };
-  
+
   return editBoardTitle ? (
     <input onChange={handleOnChange} autoFocus value={boardTitle} onBlur={handleOnBlur} />
   ) : (
