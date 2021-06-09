@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { FormEvent, useState } from 'react';
 import styled from 'styled-components';
 
 interface AddFormProps {
@@ -15,7 +15,7 @@ export default function AddForm({
   showAdd,
   action,
   editingId,
-}: AddFormProps): any {
+}: AddFormProps): JSX.Element | null {
   const [inputValue, setInputValue] = useState('');
   const [isShow, setIsShow] = useState(show);
 
@@ -23,7 +23,7 @@ export default function AddForm({
     setInputValue(e.target.value);
   };
 
-  const onSubmit = (e: any): void => {
+  const onSubmit = (e: FormEvent): void => {
     e.preventDefault();
     setIsShow(false);
     showAdd();

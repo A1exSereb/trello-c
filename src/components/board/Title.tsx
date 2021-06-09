@@ -4,11 +4,11 @@ import styled from 'styled-components';
 
 interface TitleProps {
   title: string;
-  editTitle: Function;
+  editTitle(id: number, newValue: string): void;
   id: number;
 }
 
-export default function Title({ title, id, editTitle }: TitleProps): any {
+export default function Title({ title, id, editTitle }: TitleProps): JSX.Element {
   const [editing, setEditing] = useState(false);
 
   return editing ? (

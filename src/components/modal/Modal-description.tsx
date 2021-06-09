@@ -5,17 +5,15 @@ import AddForm from '../forms/InputForm';
 interface ItemDescriptionProps {
   editing: boolean;
   id: number;
-  editDescription: Function;
   closeEdit: Function;
   description: string;
 }
 export default function ModalDescription({
   editing,
   id,
-  editDescription,
   closeEdit,
   description,
-}: ItemDescriptionProps): any {
+}: ItemDescriptionProps): JSX.Element {
   const [modalDescription, setModalDescription] = useState(description);
 
   return editing ? (
@@ -27,13 +25,13 @@ export default function ModalDescription({
       showAdd={() => closeEdit(false)}
     />
   ) : (
-    <StyledDescription onDoubleClick={() => closeEdit(true)}>{modalDescription}</StyledDescription>
+    <StyledDescription onDoubleClick={() => closeEdit(true)} value={modalDescription} />
   );
 }
 
 // styles
 
-const StyledDescription = styled.div`
+const StyledDescription = styled.input`
   width: 90%;
   background-color: #a09f9f;
   border: 1px solid black;

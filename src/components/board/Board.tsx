@@ -6,6 +6,7 @@ import AddForm from './forms/InputForm';
 import Title from './Title';
 import styled from 'styled-components';
 import { records } from '../data/data';
+import { recordsTypes } from '../data/data-types';
 
 interface BoardProps {
   id: number;
@@ -13,8 +14,7 @@ interface BoardProps {
 }
 let i = 14;
 
-export default function Board({ id, title }: BoardProps): any {
-  const [boardId, setBoardId] = useState(id);
+export default function Board({ id, title }: BoardProps): JSX.Element {
   const [boardTitle, setBoardTitle] = useState(title);
   const [boardRecords, setBoardRecords] = useState(records);
   const [add, setAdd] = useState(false);
@@ -24,23 +24,23 @@ export default function Board({ id, title }: BoardProps): any {
     return author || '';
   };
 
-  const getNewRecord = (newValue: string) => {
+  const getNewRecord = (newValue: string): void => {
     if (newValue !== '') {
       ++i;
       const newArr = [
         ...boardRecords,
-        { id: i, label: newValue, author: getAuthor(), description: '' },
+        { id: i, dataId: id, label: newValue, author: getAuthor(), description: '' },
       ];
       setBoardRecords(newArr);
       setAdd(false);
     }
   };
 
-  const deleteRecord = (id: number) => {
+  const deleteRecord = (id: number): void => {
     setBoardRecords(boardRecords.filter((item) => item.id !== id));
   };
 
-  const editRecord = (id: number, newValue: string) => {
+  const editRecord = (id: number, newValue: string): void => {
     if (newValue !== '') {
       setBoardRecords(
         boardRecords.map((item) => ({
@@ -51,7 +51,7 @@ export default function Board({ id, title }: BoardProps): any {
     }
   };
 
-  const editDescription = (id: number, newValue: string) => {
+  const editDescription = (id: number, newValue: string): void => {
     if (newValue !== '') {
       setBoardRecords(
         boardRecords.map((item) => ({
@@ -62,7 +62,7 @@ export default function Board({ id, title }: BoardProps): any {
     }
   };
 
-  const editTitle = (id: number, newValue: string) => {
+  const editTitle = (id: number, newValue: string): void => {
     setBoardTitle(newValue);
   };
 
@@ -83,7 +83,7 @@ export default function Board({ id, title }: BoardProps): any {
 
   return (
     <StyledBoard className="board" key={id}>
-      <Title key={Math.random()} title={boardTitle} id={boardId} editTitle={editTitle} />
+      <Title key={Math.random()} title={boardTitle} id={id} editTitle={editTitle} />
       <StyledUl className="board__list">{boardItems}</StyledUl>
       {add ? (
         <AddForm

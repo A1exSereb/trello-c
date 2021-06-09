@@ -1,11 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, KeyboardEvent, Key } from 'react';
 import styled from 'styled-components';
 import { comments } from '../../data/data';
-import TrashIcon from '../../icons/delete-icon.svg';
-import EditIcon from '../../icons/edit-icon.svg';
-import ModalDescription from './ModalDescription';
+import TrashIcon from '../../assets/delete-icon.svg';
+import EditIcon from '../../assets/edit-icon.svg';
 import AddForm from '../forms/InputForm';
 
 interface ItemDescriptionProps {
@@ -14,8 +13,8 @@ interface ItemDescriptionProps {
   label: string;
   id: number;
   description: string;
-  setActive: Function;
-  editDescription: Function;
+  setActive(modalActive: boolean): void;
+  editDescription(id: number, newValue: string): void;
 }
 export default function Modal({
   active,
@@ -25,9 +24,20 @@ export default function Modal({
   description,
   id,
   editDescription,
-}: ItemDescriptionProps): any {
+}: ItemDescriptionProps): JSX.Element | null {
   const [editingDescription, setEditingDescription] = useState(false);
   const [modalDescription, setModalDescription] = useState(description);
+
+  useEffect(() => {
+    const close = (e: any): void => {
+      if (e.code === 27) {
+        setActive(false);
+        editDescription(id, modalDescription);
+      }
+    };
+    window.addEventListener('keydown', close);
+    return () => window.removeEventListener('keydown', close);
+  }, []);
 
   if (!active) return null;
 

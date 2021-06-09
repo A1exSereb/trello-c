@@ -1,11 +1,13 @@
 import React from 'react';
 import './App.css';
-import Authorization from './components/Authorization';
+import Authorization from './components/Authorization-modal';
 import Board from './components/Board';
-import { data } from './data/data';
+import { data, records } from './data/data';
+import { dataTypes } from './data/data-types';
 
-function App() {
-  const boards = data.map((item: any) => {
+function App(): JSX.Element {
+  localStorage.setItem('records', JSON.stringify(records));
+  const boards = data.map((item: dataTypes) => {
     return <Board key={Math.random()} id={item.id} title={item.title} />;
   });
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import TrashIcon from '../icons/delete-icon.svg';
-import EditIcon from '../icons/edit-icon.svg';
+import TrashIcon from '../assets/delete-icon.svg';
+import EditIcon from '../assets/edit-icon.svg';
 import AddForm from './forms/InputForm';
 import styled from 'styled-components';
 import Modal from './modal/Modal';
@@ -10,9 +10,9 @@ interface BoardItemProps {
   label: string;
   author: string;
   description: string;
-  deleteRecord: Function;
-  editRecord: Function;
-  editDescription: Function;
+  deleteRecord(id: number): void;
+  editRecord(id: number, newValue: string): void;
+  editDescription(id: number, newValue: string): void;
 }
 
 export default function BoardItem({
@@ -23,7 +23,7 @@ export default function BoardItem({
   deleteRecord,
   editRecord,
   editDescription,
-}: BoardItemProps): any {
+}: BoardItemProps): JSX.Element {
   const [editing, setEditing] = useState(false);
   const [modalActive, setModalActive] = useState(false);
 

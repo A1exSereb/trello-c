@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { FormEvent, useState } from 'react';
 import styled from 'styled-components';
 
-export default function Authorization() {
+export default function Authorization(): JSX.Element | null {
   const [name, setName] = useState('');
   const [visible, setVisible] = useState(true);
 
-  const onSubmit = (e: any) => {
+  const onSubmit = (e: FormEvent) => {
     e.preventDefault();
 
     if (name) {
