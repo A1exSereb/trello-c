@@ -8,7 +8,6 @@ interface TitleProps {
 }
 
 export default function Title({ title, id }: TitleProps): JSX.Element {
-  const [editBoardTitle, setEditBoardTitle] = useState(false);
   const [boardTitle, setBoardTitle] = useState(title);
 
   const handleOnChange = (e: any) => {
@@ -17,23 +16,28 @@ export default function Title({ title, id }: TitleProps): JSX.Element {
 
   const handleOnBlur = () => {
     editTitle(id, boardTitle);
-    setEditBoardTitle(false);
   };
 
-  return editBoardTitle ? (
-    <input onChange={handleOnChange} autoFocus value={boardTitle} onBlur={handleOnBlur} />
-  ) : (
-    <StyledTitle className="board__title" onDoubleClick={() => setEditBoardTitle(true)}>
-      {boardTitle}
-    </StyledTitle>
+  return (
+    <StyledTitle
+      className="board__title"
+      onChange={handleOnChange}
+      value={boardTitle}
+      multiple
+      onBlur={handleOnBlur}
+    />
   );
 }
 
 // styles
-const StyledTitle = styled.h2`
+const StyledTitle = styled.input`
   cursor: pointer;
   word-wrap: break-word;
+  background-color: inherit;
+  font-size: 14px;
+  font-weight: 700;
   margin-top: 0;
+  border: none;
   margin-bottom: 5px;
   color: #000;
 `;
