@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import TrashIcon from '../assets/delete-icon.svg';
-import EditIcon from '../assets/edit-icon.svg';
-import AddForm from './forms/InputForm';
+import AddForm from '../forms/InputForm';
 import styled from 'styled-components';
-import Modal from './modal/Modal';
+import Modal from '../modal/Modal';
+import TrashIcon from '../../assets/icons/delete-icon.svg';
+import EditIcon from '../../assets/icons/edit-icon.svg';
 
 interface BoardItemProps {
   id: number;
@@ -24,23 +24,23 @@ export default function BoardItem({
   editRecord,
   editDescription,
 }: BoardItemProps): JSX.Element {
-  const [editing, setEditing] = useState(false);
-  const [modalActive, setModalActive] = useState(false);
+  const [editingBoardItem, setEditingBoardItem] = useState(false);
+  const [showModalBoardItem, setShowModalBoardItem] = useState(false);
 
-  return editing ? (
+  return editingBoardItem ? (
     <AddForm
       show={true}
       action={'edit'}
       editingId={id}
-      showAdd={() => setEditing(false)}
+      showAdd={() => setEditingBoardItem(false)}
       getNewRecord={editRecord}
     />
   ) : (
-    <Li key={id} className="board__item" onDoubleClick={() => setModalActive(true)}>
+    <Li key={id} className="board__item" onDoubleClick={() => setShowModalBoardItem(true)}>
       {label}
       <StyledImage
         className="item__button-edit"
-        onClick={() => setEditing(true)}
+        onClick={() => setEditingBoardItem(true)}
         src={EditIcon}
         alt="edit"
       />
@@ -51,8 +51,8 @@ export default function BoardItem({
         alt="delete"
       />
       <Modal
-        active={modalActive}
-        setActive={setModalActive}
+        active={showModalBoardItem}
+        setActive={setShowModalBoardItem}
         author={author}
         description={description}
         editDescription={editDescription}

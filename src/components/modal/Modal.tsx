@@ -3,8 +3,8 @@
 import React, { useEffect, useState, KeyboardEvent, Key } from 'react';
 import styled from 'styled-components';
 import { comments } from '../../data/data';
-import TrashIcon from '../../assets/delete-icon.svg';
-import EditIcon from '../../assets/edit-icon.svg';
+import TrashIcon from '../../assets/icons/delete-icon.svg';
+import EditIcon from '../../assets/icons/edit-icon.svg';
 import AddForm from '../forms/InputForm';
 
 interface ItemDescriptionProps {

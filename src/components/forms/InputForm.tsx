@@ -17,7 +17,7 @@ export default function AddForm({
   editingId,
 }: AddFormProps): JSX.Element | null {
   const [inputValue, setInputValue] = useState('');
-  const [isShow, setIsShow] = useState(show);
+  const [showInputForm, setShowInputForm] = useState(show);
 
   const handlerInput = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setInputValue(e.target.value);
@@ -25,15 +25,15 @@ export default function AddForm({
 
   const onSubmit = (e: FormEvent): void => {
     e.preventDefault();
-    setIsShow(false);
+    setShowInputForm(false);
     showAdd();
   };
   const onClose = () => {
-    setIsShow(false);
+    setShowInputForm(false);
     showAdd();
   };
 
-  if (!isShow) return null;
+  if (!showInputForm) return null;
 
   return (
     <form className="inputform" onSubmit={onSubmit}>

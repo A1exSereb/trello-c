@@ -5,7 +5,7 @@ export interface dataTypes {
 
 export type recordsTypes = {
   records: Array<recordsArr>;
-}
+};
 interface recordsArr {
   id: number;
   dataId: number;

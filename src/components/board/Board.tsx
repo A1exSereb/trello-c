@@ -2,11 +2,10 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import BoardItem from './BoardItem';
-import AddForm from './forms/InputForm';
-import Title from './Title';
+import AddForm from '../forms/InputForm';
+import Title from './BoardTitle';
 import styled from 'styled-components';
-import { records } from '../data/data';
-import { recordsTypes } from '../data/data-types';
+import { records } from '../../data/data';
 
 interface BoardProps {
   id: number;
@@ -17,7 +16,7 @@ let i = 14;
 export default function Board({ id, title }: BoardProps): JSX.Element {
   const [boardTitle, setBoardTitle] = useState(title);
   const [boardRecords, setBoardRecords] = useState(records);
-  const [add, setAdd] = useState(false);
+  const [showAddModal, setShowAddModal] = useState(false);
 
   const getAuthor = () => {
     const author = localStorage.getItem('name');
@@ -32,7 +31,7 @@ export default function Board({ id, title }: BoardProps): JSX.Element {
         { id: i, dataId: id, label: newValue, author: getAuthor(), description: '' },
       ];
       setBoardRecords(newArr);
-      setAdd(false);
+      setShowAddModal(false);
     }
   };
 
@@ -62,10 +61,6 @@ export default function Board({ id, title }: BoardProps): JSX.Element {
     }
   };
 
-  const editTitle = (id: number, newValue: string): void => {
-    setBoardTitle(newValue);
-  };
-
   const boardItems = boardRecords.map((item) => {
     return (
       <BoardItem
@@ -83,17 +78,17 @@ export default function Board({ id, title }: BoardProps): JSX.Element {
 
   return (
     <StyledBoard className="board" key={id}>
-      <Title key={Math.random()} title={boardTitle} id={id} editTitle={editTitle} />
+      <Title key={Math.random()} title={boardTitle} id={id} />
       <StyledUl className="board__list">{boardItems}</StyledUl>
-      {add ? (
+      {showAddModal ? (
         <AddForm
           getNewRecord={getNewRecord}
           show={true}
-          showAdd={() => setAdd(false)}
+          showAdd={() => setShowAddModal(false)}
           action={'add'}
         />
       ) : (
-        <StyledAddItem onClick={() => setAdd(true)}>Add</StyledAddItem>
+        <StyledAddItem onClick={() => setShowAddModal(true)}>Add</StyledAddItem>
       )}
     </StyledBoard>
   );
