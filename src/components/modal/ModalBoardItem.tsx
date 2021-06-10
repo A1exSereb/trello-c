@@ -19,10 +19,11 @@ export default function ModalDescription({
   return editing ? (
     <AddForm
       show={true}
-      action={'add'}
+      // action={'add'}
       editingId={id}
-      getNewRecord={setModalDescription}
-      showAdd={() => closeEdit(false)}
+      setNewInputValue={setModalDescription}
+      setParentShowState={closeEdit}
+      // showAdd={() => closeEdit(false)}
     />
   ) : (
     <StyledDescription onDoubleClick={() => closeEdit(true)} value={modalDescription} />

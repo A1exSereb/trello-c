@@ -1,23 +1,23 @@
 import React, { FormEvent, useState } from 'react';
 import styled from 'styled-components';
 
-interface AddFormProps {
+interface InputFormProps {
   show: boolean;
-  getNewRecord: Function;
-  showAdd: Function;
-  action: string;
+  setNewInputValue: Function;
   editingId?: number | null;
+  setParentShowState: Function;
 }
 
-export default function AddForm({
+export default function InputForm({
   show,
-  getNewRecord,
-  showAdd,
-  action,
+  setNewInputValue,
   editingId,
-}: AddFormProps): JSX.Element | null {
+  setParentShowState,
+}: InputFormProps): JSX.Element | null {
   const [inputValue, setInputValue] = useState('');
   const [showInputForm, setShowInputForm] = useState(show);
+
+  if (!showInputForm) return null;
 
   const handlerInput = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setInputValue(e.target.value);
@@ -26,11 +26,11 @@ export default function AddForm({
   const onSubmit = (e: FormEvent): void => {
     e.preventDefault();
     setShowInputForm(false);
-    showAdd();
+    setParentShowState(false);
   };
   const onClose = () => {
     setShowInputForm(false);
-    showAdd();
+    setParentShowState(false);
   };
 
   if (!showInputForm) return null;
@@ -43,18 +43,9 @@ export default function AddForm({
         onChange={handlerInput}
         type="text"
       />
-      {action === 'add' ? (
-        <OkButton className="inputform__button-add" onClick={() => getNewRecord(inputValue)}>
-          Yes
-        </OkButton>
-      ) : (
-        <OkButton
-          className="inputform__button-edit"
-          onClick={() => getNewRecord(editingId, inputValue)}
-        >
-          Yes
-        </OkButton>
-      )}
+      <OkButton className="inputform__button-add" onClick={() => setNewInputValue(inputValue)}>
+        Yes
+      </OkButton>
       <CancelButton className="inputform__button-close" onClick={onClose}>
         No
       </CancelButton>

@@ -1,22 +1,19 @@
-export interface dataTypes {
+export type dataTypes = {
   id: number;
   title: string;
-}
+};
 
 export type recordsTypes = {
-  records: Array<recordsArr>;
-};
-interface recordsArr {
   id: number;
   dataId: number;
   label: string;
   author: string;
   description: string;
-}
+};
 
-export interface commentsTypes {
+export type commentsTypes = {
   id: number;
   recordId: number;
   name: string;
   label: string;
-}
+};

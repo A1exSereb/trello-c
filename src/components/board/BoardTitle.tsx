@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { editTitle } from '../../utils/ServiceWorker';
+import { editBoardTitle } from '../../utils/ServiceWorker';
 import styled from 'styled-components';
 
 interface TitleProps {
@@ -15,7 +15,7 @@ export default function Title({ title, id }: TitleProps): JSX.Element {
   };
 
   const handleOnBlur = () => {
-    editTitle(id, boardTitle);
+    editBoardTitle(id, boardTitle);
   };
 
   return (

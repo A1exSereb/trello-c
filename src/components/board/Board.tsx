@@ -1,59 +1,35 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import BoardItem from './BoardItem';
-import AddForm from '../forms/InputForm';
+import InputForm from '../forms/InputForm';
 import Title from './BoardTitle';
 import styled from 'styled-components';
-import { records } from '../../data/data';
+import { setNewRecord, thisBoardRecords } from '../../utils/ServiceWorker';
 
 interface BoardProps {
   id: number;
   title: string;
 }
-let i = 14;
 
 export default function Board({ id, title }: BoardProps): JSX.Element {
   const [boardTitle] = useState(title);
-  const [boardRecords, setBoardRecords] = useState(records);
+  const [boardRecords, setBoardRecords] = useState(thisBoardRecords(id));
   const [showAddModal, setShowAddModal] = useState(false);
+  const [newInputValue, setNewInputValue] = useState('');
 
-  const getAuthor = () => {
-    const author = localStorage.getItem('name');
-    return author || '';
-  };
-
-  const getNewRecord = (newValue: string): void => {
-    if (newValue !== '') {
-      ++i;
-      const newArr = [
-        ...boardRecords,
-        { id: i, dataId: id, label: newValue, author: getAuthor(), description: '' },
-      ];
-      setBoardRecords(newArr);
-      setShowAddModal(false);
+  useEffect(() => {
+    console.log('componentDidUpdate');
+    if (newInputValue !== '') {
+      setNewRecord(id, newInputValue, setBoardRecords, boardRecords);
+      setNewInputValue('');
     }
-  };
-
-  const deleteRecord = (id: number): void => {
-    setBoardRecords(boardRecords.filter((item) => item.id !== id));
-  };
-
-  const editRecord = (id: number, newValue: string): void => {
-    if (newValue !== '') {
-      setBoardRecords(
-        boardRecords.map((item) => ({
-          ...item,
-          label: item.id === id ? newValue : item.label,
-        }))
-      );
-    }
-  };
+  }, [showAddModal]);
 
   const editDescription = (id: number, newValue: string): void => {
     if (newValue !== '') {
       setBoardRecords(
-        boardRecords.map((item) => ({
+        boardRecords.map((item: any) => ({
           ...item,
           description: item.id === id ? newValue : item.description,
         }))
@@ -61,16 +37,17 @@ export default function Board({ id, title }: BoardProps): JSX.Element {
     }
   };
 
-  const boardItems = boardRecords.map((item) => {
+  const boardItems = boardRecords.map((item: any) => {
     return (
       <BoardItem
         key={Math.random()}
         id={item.id}
         label={item.label}
         author={item.author}
+        dataId={item.dataId}
         description={item.description}
-        deleteRecord={deleteRecord}
-        editRecord={editRecord}
+        setBoardRecords={setBoardRecords}
+        boardRecords={boardRecords}
         editDescription={editDescription}
       />
     );
@@ -78,14 +55,13 @@ export default function Board({ id, title }: BoardProps): JSX.Element {
 
   return (
     <StyledBoard className="board" key={id}>
-      <Title key={Math.random()} title={boardTitle} id={id} />
+      <Title key={id} title={boardTitle} id={id} />
       <StyledUl className="board__list">{boardItems}</StyledUl>
       {showAddModal ? (
-        <AddForm
-          getNewRecord={getNewRecord}
+        <InputForm
+          setNewInputValue={setNewInputValue}
           show={true}
-          showAdd={() => setShowAddModal(false)}
-          action={'add'}
+          setParentShowState={setShowAddModal}
         />
       ) : (
         <StyledAddItem onClick={() => setShowAddModal(true)}>Add</StyledAddItem>

@@ -69,10 +69,11 @@ export default function Modal({
           {editingDescription ? (
             <AddForm
               show={true}
-              action={'add'}
+              // action={'add'}
               editingId={id}
-              getNewRecord={setModalDescription}
-              showAdd={() => setEditingDescription(false)}
+              setNewInputValue={setModalDescription}
+              setParentShowState={setEditingDescription}
+              // showAdd={() => setEditingDescription(false)}
             />
           ) : (
             <StyledDescription onDoubleClick={() => setEditingDescription(true)}>

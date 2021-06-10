@@ -1,43 +1,61 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AddForm from '../forms/InputForm';
 import styled from 'styled-components';
+import { deleteBoardItem } from '../../utils/ServiceWorker';
+import { recordsTypes } from '../../data/data-types';
 import TrashIcon from '../../assets/icons/delete-icon.svg';
 import EditIcon from '../../assets/icons/edit-icon.svg';
 import Modal from '../modal/Modal';
+import { editRecord } from '../../utils/ServiceWorker';
 
 interface BoardItemProps {
   id: number;
   label: string;
   author: string;
+  dataId: number;
   description: string;
-  deleteRecord(id: number): void;
-  editRecord(id: number, newValue: string): void;
+  setBoardRecords: Function;
+  boardRecords: Array<recordsTypes>;
   editDescription(id: number, newValue: string): void;
 }
 
 export default function BoardItem({
   id,
   label,
+
   author,
   description,
-  deleteRecord,
-  editRecord,
+  setBoardRecords,
+  boardRecords,
   editDescription,
-}: BoardItemProps): JSX.Element {
+}: BoardItemProps): JSX.Element | null {
   const [editingBoardItem, setEditingBoardItem] = useState(false);
+  const [boardItemLabel, setBoartItemLabel] = useState(label);
   const [showModalBoardItem, setShowModalBoardItem] = useState(false);
+  const [newInputValue, setNewInputValue] = useState('');
+
+  useEffect(() => {
+    console.log('componentDidUpdate');
+    if (newInputValue !== '') {
+      editRecord(id, newInputValue, setBoartItemLabel);
+      setNewInputValue('');
+    }
+  }, [editingBoardItem]);
+
+  if (label === '') return null;
 
   return editingBoardItem ? (
     <AddForm
       show={true}
-      action={'edit'}
-      editingId={id}
-      showAdd={() => setEditingBoardItem(false)}
-      getNewRecord={editRecord}
+      // action={'edit'}
+      // editingId={id}
+      // showAdd={() => setEditingBoardItem(false)}
+      setNewInputValue={setNewInputValue}
+      setParentShowState={setEditingBoardItem}
     />
   ) : (
     <Li key={id} className="board__item" onDoubleClick={() => setShowModalBoardItem(true)}>
-      {label}
+      {boardItemLabel}
       <StyledImage
         className="item__button-edit"
         onClick={() => setEditingBoardItem(true)}
@@ -46,7 +64,7 @@ export default function BoardItem({
       />
       <StyledImage
         className="item__button-delete"
-        onClick={() => deleteRecord(id)}
+        onClick={() => deleteBoardItem(id, setBoardRecords, boardRecords)}
         src={TrashIcon}
         alt="delete"
       />
