@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import AddForm from '../forms/InputForm';
 import styled from 'styled-components';
-import Modal from '../modal/Modal';
 import TrashIcon from '../../assets/icons/delete-icon.svg';
 import EditIcon from '../../assets/icons/edit-icon.svg';
+import Modal from '../modal/Modal';
 
 interface BoardItemProps {
   id: number;

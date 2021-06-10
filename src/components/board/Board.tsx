@@ -14,7 +14,7 @@ interface BoardProps {
 let i = 14;
 
 export default function Board({ id, title }: BoardProps): JSX.Element {
-  const [boardTitle, setBoardTitle] = useState(title);
+  const [boardTitle] = useState(title);
   const [boardRecords, setBoardRecords] = useState(records);
   const [showAddModal, setShowAddModal] = useState(false);
 

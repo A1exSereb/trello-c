@@ -3,7 +3,7 @@ export const editTitle = (id: number, newValue: string): void => {
   localStorage.setItem(
     'data',
     JSON.stringify(
-      newData.map((item) => ({
+      newData.map((item: any) => ({
         ...item,
         title: id === item.id ? newValue : item.title,
       }))
