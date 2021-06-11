@@ -1,95 +1,70 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-unused-vars */
-import React, { useEffect, useState, KeyboardEvent, Key } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import { comments } from '../../data/data';
-import TrashIcon from '../../assets/icons/delete-icon.svg';
-import EditIcon from '../../assets/icons/edit-icon.svg';
-import AddForm from '../forms/InputForm';
+import { ModalContext } from '../../utils/Api';
 
 interface ItemDescriptionProps {
   active: boolean;
-  author: string;
-  label: string;
-  id: number;
-  description: string;
-  setActive(modalActive: boolean): void;
-  editDescription(id: number, newValue: string): void;
+  author?: string;
+  label?: string;
+  allowClose: boolean;
+  id?: number;
+  description?: string;
+  content: JSX.Element | null;
+  setParentModalShow?: Function;
 }
 export default function Modal({
   active,
-  setActive,
-  label,
-  author,
-  description,
-  id,
-  editDescription,
+  allowClose,
+  content,
+  setParentModalShow,
 }: ItemDescriptionProps): JSX.Element | null {
-  const [editingDescription, setEditingDescription] = useState(false);
-  const [modalDescription, setModalDescription] = useState(description);
+  const [modalActive, setModalActive] = useState(active);
 
-  useEffect(() => {
-    const close = (e: any): void => {
-      if (e.code === 27) {
-        setActive(false);
-        editDescription(id, modalDescription);
-      }
-    };
-    window.addEventListener('keydown', close);
-    return () => window.removeEventListener('keydown', close);
-  }, []);
+  if (!modalActive) return null;
 
-  if (!active) return null;
-
-  const closeModal = () => {
-    setActive(false);
-    editDescription(id, modalDescription);
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.code === 'Escape') {
+      closeModal();
+    }
   };
 
-  const commetsList = comments.map((item) => {
+  const closeModal = () => {
+    setModalActive(false);
+    setParentModalShow ? setParentModalShow(false) : null;
+  };
+
+  /* const commetsList = comments.map((item) => {
     return (
       <li key={item.id}>
         <div>{item.name}</div>
         <div>
           {item.label}
-          <StyledImage src={EditIcon} alt="edit" />
-          <StyledImage src={TrashIcon} alt="delete" />
+          <Image src={EditIcon} alt="edit" />
+          <Image src={TrashIcon} alt="delete" />
         </div>
       </li>
     );
-  });
+  }); */
 
-  return (
-    <StyledModalOverlay onClick={closeModal}>
-      <StyledModal className="modal" onClick={(e) => e.stopPropagation()}>
-        <StyledCloseButton onClick={closeModal}>X</StyledCloseButton>
-        <Scroll>
-          <StyledTitle>{label}</StyledTitle>
-          <StyledSubtitle>Author: {author}</StyledSubtitle>
-          {editingDescription ? (
-            <AddForm
-              show={true}
-              // action={'add'}
-              editingId={id}
-              setNewInputValue={setModalDescription}
-              setParentShowState={setEditingDescription}
-              // showAdd={() => setEditingDescription(false)}
-            />
-          ) : (
-            <StyledDescription onDoubleClick={() => setEditingDescription(true)}>
-              {modalDescription}
-            </StyledDescription>
-          )}
-          <ul>{commetsList}</ul>
-        </Scroll>
-      </StyledModal>
-    </StyledModalOverlay>
+  return allowClose ? (
+    <ModalOverlay onKeyDown={(e) => handleKeyPress(e)} onClick={closeModal} tabIndex={-1}>
+      <ModalContainer className="modal" onClick={(e) => e.stopPropagation()}>
+        <CloseButton onClick={closeModal}>X</CloseButton>
+        {content}
+      </ModalContainer>
+    </ModalOverlay>
+  ) : (
+    <ModalOverlay>
+      <ModalContainer className="modal">
+        <ModalContext.Provider value={setModalActive}>{content}</ModalContext.Provider>
+      </ModalContainer>
+    </ModalOverlay>
   );
 }
 
 // styles
 
-const StyledModal = styled.div`
+const ModalContainer = styled.div`
   position: fixed;
   top: 50%;
   left: 50%;
@@ -104,43 +79,15 @@ const StyledModal = styled.div`
   background-color: #fff;
 `;
 
-const StyledTitle = styled.h1`
-  width: 100%;
-  height: 60px;
-  overflow: auto;
-  text-align: left;
-  margin: 0;
-  font-size: 30px;
-`;
-
-const StyledSubtitle = styled.h2`
-  margin: 0;
-  position: absolute;
-  top: 3px;
-  left: 20px;
-  font-size: 16px;
-`;
-
-const StyledDescription = styled.div`
-  width: 90%;
-  background-color: #a09f9f;
-  border: 1px solid black;
-  height: 100px;
-  padding: 5px;
-  margin: 0 auto;
-  overflow: auto;
-  border-radius: 10px;
-`;
-
-const StyledImage = styled.img`
+/* const Image = styled.img`
   width: 13px;
   height: 13px;
   margin-left: 5px;
   margin-top: 3px;
   cursor: pointer;
-`;
+`; */
 
-const StyledModalOverlay = styled.div`
+const ModalOverlay = styled.div`
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
@@ -150,13 +97,7 @@ const StyledModalOverlay = styled.div`
   left: 0;
 `;
 
-const Scroll = styled.div`
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-`;
-
-const StyledCloseButton = styled.button`
+const CloseButton = styled.button`
   position: absolute;
   top: 0;
   right: 0;

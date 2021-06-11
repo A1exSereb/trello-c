@@ -1,6 +1,8 @@
-import { dataTypes, recordsTypes } from '../data/data-types';
+import { DataType, RecordType } from '../data/data-types';
+
+// general
 let i = 33;
-export const newId = () => {
+export const newId = (): number => {
   return Math.random() + i++;
 };
 
@@ -9,9 +11,10 @@ const getAuthor = () => {
   return author || '';
 };
 
-export const thisBoardRecords = (id: number) => {
+// board
+export const thisBoardRecord = (id: number): Array<RecordType> => {
   const records = JSON.parse(localStorage.getItem('records') || '');
-  return records.filter((recordsItem: recordsTypes) => {
+  return records.filter((recordsItem: RecordType) => {
     return id === recordsItem.dataId;
   });
 };
@@ -21,7 +24,7 @@ export const editBoardTitle = (id: number, newValue: string): void => {
   localStorage.setItem(
     'data',
     JSON.stringify(
-      newData.map((item: dataTypes) => ({
+      newData.map((item: DataType) => ({
         ...item,
         title: id === item.id ? newValue : item.title,
       }))
@@ -33,11 +36,11 @@ export const setNewRecord = (
   id: number,
   newValue: string,
   changeStateData: Function,
-  currentStateData: Array<recordsTypes>
+  currentStateData: Array<RecordType>
 ): void => {
-  const data: Array<recordsTypes> = JSON.parse(localStorage.getItem('records') || '');
+  const data: Array<RecordType> = JSON.parse(localStorage.getItem('records') || '');
 
-  const newData: recordsTypes = {
+  const newData: RecordType = {
     id: newId(),
     dataId: id,
     label: newValue,
@@ -53,16 +56,16 @@ export const setNewRecord = (
 export const deleteBoardItem = (
   id: number,
   changeStateData: Function,
-  currentStateData: Array<recordsTypes>
+  currentStateData: Array<RecordType>
 ): void => {
   const records = JSON.parse(localStorage.getItem('records') || '');
 
-  changeStateData(currentStateData.filter((item: any) => item.id !== id));
+  changeStateData(currentStateData.filter((item: RecordType) => item.id !== id));
 
   localStorage.setItem(
     'records',
     JSON.stringify(
-      records.filter((item: recordsTypes) => {
+      records.filter((item: RecordType) => {
         return id !== item.id;
       })
     )
@@ -78,11 +81,24 @@ export const editRecord = (id: number, newValue: string, changeStateData: Functi
     localStorage.setItem(
       'records',
       JSON.stringify(
-        newRecord.map((item: recordsTypes) => ({
+        newRecord.map((item: RecordType) => ({
           ...item,
           label: id === item.id ? newValue : item.label,
         }))
       )
     );
   }
+};
+
+export const editBoardItemDescription = (id: number, newValue: string): void => {
+  const newData = JSON.parse(localStorage.getItem('records') || '');
+  localStorage.setItem(
+    'records',
+    JSON.stringify(
+      newData.map((item: RecordType) => ({
+        ...item,
+        description: id === item.id ? newValue : item.description,
+      }))
+    )
+  );
 };

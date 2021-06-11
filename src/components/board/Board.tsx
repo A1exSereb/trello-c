@@ -5,16 +5,17 @@ import BoardItem from './BoardItem';
 import InputForm from '../forms/InputForm';
 import Title from './BoardTitle';
 import styled from 'styled-components';
-import { setNewRecord, thisBoardRecords } from '../../utils/ServiceWorker';
+import { setNewRecord, thisBoardRecord } from '../../utils/ServiceWorker';
+import { RecordType } from '../../data/data-types';
 
 interface BoardProps {
   id: number;
   title: string;
 }
 
-export default function Board({ id, title }: BoardProps): JSX.Element {
+export default function NewBoard({ id, title }: BoardProps): JSX.Element {
   const [boardTitle] = useState(title);
-  const [boardRecords, setBoardRecords] = useState(thisBoardRecords(id));
+  const [boardRecords, setBoardRecords] = useState(thisBoardRecord(id));
   const [showAddModal, setShowAddModal] = useState(false);
   const [newInputValue, setNewInputValue] = useState('');
 
@@ -24,12 +25,12 @@ export default function Board({ id, title }: BoardProps): JSX.Element {
       setNewRecord(id, newInputValue, setBoardRecords, boardRecords);
       setNewInputValue('');
     }
-  }, [showAddModal]);
+  }, [boardRecords, id, newInputValue, showAddModal]);
 
   const editDescription = (id: number, newValue: string): void => {
     if (newValue !== '') {
       setBoardRecords(
-        boardRecords.map((item: any) => ({
+        boardRecords.map((item: RecordType) => ({
           ...item,
           description: item.id === id ? newValue : item.description,
         }))
@@ -37,7 +38,7 @@ export default function Board({ id, title }: BoardProps): JSX.Element {
     }
   };
 
-  const boardItems = boardRecords.map((item: any) => {
+  const boardItems = boardRecords.map((item: RecordType) => {
     return (
       <BoardItem
         key={Math.random()}
@@ -54,9 +55,9 @@ export default function Board({ id, title }: BoardProps): JSX.Element {
   });
 
   return (
-    <StyledBoard className="board" key={id}>
+    <Board className="board" key={id}>
       <Title key={id} title={boardTitle} id={id} />
-      <StyledUl className="board__list">{boardItems}</StyledUl>
+      <Ul className="board__list">{boardItems}</Ul>
       {showAddModal ? (
         <InputForm
           setNewInputValue={setNewInputValue}
@@ -64,15 +65,15 @@ export default function Board({ id, title }: BoardProps): JSX.Element {
           setParentShowState={setShowAddModal}
         />
       ) : (
-        <StyledAddItem onClick={() => setShowAddModal(true)}>Add</StyledAddItem>
+        <AddItem onClick={() => setShowAddModal(true)}>Add</AddItem>
       )}
-    </StyledBoard>
+    </Board>
   );
 }
 
 // styles
 
-const StyledBoard = styled.div`
+const Board = styled.div`
   width: 200px;
   padding: 10px;
   display: inline-block;
@@ -85,10 +86,10 @@ const StyledBoard = styled.div`
   margin-right: 15px;
   background: linear-gradient(to top left, powderblue, pink);
 `;
-const StyledUl = styled.ul`
+const Ul = styled.ul`
   padding: 0;
 `;
-const StyledAddItem = styled.button`
+const AddItem = styled.button`
   border: none;
   display: block;
   text-align: center;

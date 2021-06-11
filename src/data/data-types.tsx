@@ -1,9 +1,9 @@
-export type dataTypes = {
+export type DataType = {
   id: number;
   title: string;
 };
 
-export type recordsTypes = {
+export type RecordType = {
   id: number;
   dataId: number;
   label: string;
@@ -11,7 +11,7 @@ export type recordsTypes = {
   description: string;
 };
 
-export type commentsTypes = {
+export type CommentType = {
   id: number;
   recordId: number;
   name: string;

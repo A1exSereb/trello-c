@@ -1,15 +1,19 @@
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent, useContext, useState } from 'react';
 import styled from 'styled-components';
+import { ModalContext } from '../../../utils/Api';
 
 export default function Authorization(): JSX.Element | null {
   const [name, setName] = useState('');
   const [visible, setVisible] = useState(true);
+  const setModalActive = useContext(ModalContext);
+  if (!visible) return null;
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
 
     if (name) {
       localStorage.setItem('name', name);
+      setModalActive(false);
       setVisible(false);
     }
   };
@@ -18,39 +22,28 @@ export default function Authorization(): JSX.Element | null {
     setName(e.currentTarget.value);
   };
 
-  if (!visible) return null;
-
   return (
-    <Div className="authorization__container">
-      <Form onSubmit={onSubmit} className="authorization__form">
-        <Input
-          className="authorization__input"
-          value={name}
-          type="text"
-          placeholder="What is your name?"
-          onChange={handlerInput}
-        />
-        <Button className="authorization__button-submit" type="submit">
-          Sign In
-        </Button>
-      </Form>
-    </Div>
+    <Form onSubmit={onSubmit} className="authorization__form">
+      <Input
+        className="authorization__input"
+        value={name}
+        type="text"
+        placeholder="What is your name?"
+        onChange={handlerInput}
+      />
+      <Button className="authorization__button-submit" type="submit">
+        Sign In
+      </Button>
+    </Form>
   );
 }
 
 // styles
-const Div = styled.div`
-  position: absolute;
-  margin: 0 auto;
-  width: 100%;
-  height: 100%;
-  padding-top: 60px;
-  overflow: hidden;
-  background-color: #000;
-`;
+
 const Form = styled.form`
-  margin: 0 auto;
+  margin: 100px auto;
   width: 300px;
+  height: 300px;
   display: flex;
   flex-direction: column;
   align-items: center;

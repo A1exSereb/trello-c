@@ -4,14 +4,12 @@ import styled from 'styled-components';
 interface InputFormProps {
   show: boolean;
   setNewInputValue: Function;
-  editingId?: number | null;
   setParentShowState: Function;
 }
 
 export default function InputForm({
   show,
   setNewInputValue,
-  editingId,
   setParentShowState,
 }: InputFormProps): JSX.Element | null {
   const [inputValue, setInputValue] = useState('');
@@ -37,12 +35,7 @@ export default function InputForm({
 
   return (
     <form className="inputform" onSubmit={onSubmit}>
-      <StyledInput
-        className="inputform__input"
-        value={inputValue}
-        onChange={handlerInput}
-        type="text"
-      />
+      <Input className="inputform__input" value={inputValue} onChange={handlerInput} type="text" />
       <OkButton className="inputform__button-add" onClick={() => setNewInputValue(inputValue)}>
         Yes
       </OkButton>
@@ -53,7 +46,7 @@ export default function InputForm({
   );
 }
 // styles
-const StyledInput = styled.input`
+const Input = styled.input`
   background-color: #d7d7d7;
   width: 65%;
   border: 1px solid #000;
@@ -64,21 +57,21 @@ const StyledInput = styled.input`
   outline: none;
 `;
 
-const StyledButton = styled.button`
+const Button = styled.button`
   border: 1px solid #000;
   padding: 3px;
   cursor: pointer;
   background-color: #000;
   color: #fff;
 `;
-const OkButton = styled(StyledButton)`
+const OkButton = styled(Button)`
   border-right: none;
   :hover {
     background-color: #fff;
     color: #000;
   }
 `;
-const CancelButton = styled(StyledButton)`
+const CancelButton = styled(Button)`
   border-left: none;
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
