@@ -1,4 +1,4 @@
-import { DataType, RecordType } from '../data/data-types';
+import { CommentType, DataType, RecordType } from '../data/data-types';
 
 // general
 let i = 33;
@@ -6,16 +6,16 @@ export const newId = (): number => {
   return Math.random() + i++;
 };
 
-const getAuthor = () => {
+export const getAuthor = () => {
   const author = localStorage.getItem('name');
   return author || '';
 };
 
 // board
-export const thisBoardRecord = (id: number): Array<RecordType> => {
+export const boardRecord = (id: number): Array<RecordType> => {
   const records = JSON.parse(localStorage.getItem('records') || '');
-  return records.filter((recordsItem: RecordType) => {
-    return id === recordsItem.dataId;
+  return records.filter((item: RecordType) => {
+    return id === item.dataId;
   });
 };
 
@@ -35,7 +35,7 @@ export const editBoardTitle = (id: number, newValue: string): void => {
 export const setNewRecord = (
   id: number,
   newValue: string,
-  changeStateData: Function,
+  changeStateData: React.Dispatch<React.SetStateAction<RecordType[]>>,
   currentStateData: Array<RecordType>
 ): void => {
   const data: Array<RecordType> = JSON.parse(localStorage.getItem('records') || '');
@@ -55,7 +55,7 @@ export const setNewRecord = (
 
 export const deleteBoardItem = (
   id: number,
-  changeStateData: Function,
+  changeStateData: React.Dispatch<React.SetStateAction<RecordType[]>>,
   currentStateData: Array<RecordType>
 ): void => {
   const records = JSON.parse(localStorage.getItem('records') || '');
@@ -72,16 +72,26 @@ export const deleteBoardItem = (
   );
 };
 
-export const editRecord = (id: number, newValue: string, changeStateData: Function): void => {
+export const editRecord = (
+  id: number,
+  newValue: string,
+  currentStateData: Array<RecordType>,
+  changeStateData: React.Dispatch<React.SetStateAction<RecordType[]>>
+): void => {
   if (newValue !== '') {
-    const newRecord = JSON.parse(localStorage.getItem('records') || '');
+    const records = JSON.parse(localStorage.getItem('records') || '');
 
-    changeStateData(newValue);
+    changeStateData(
+      currentStateData.map((item: RecordType) => ({
+        ...item,
+        label: id === item.id ? newValue : item.label,
+      }))
+    );
 
     localStorage.setItem(
       'records',
       JSON.stringify(
-        newRecord.map((item: RecordType) => ({
+        records.map((item: RecordType) => ({
           ...item,
           label: id === item.id ? newValue : item.label,
         }))
@@ -89,6 +99,8 @@ export const editRecord = (id: number, newValue: string, changeStateData: Functi
     );
   }
 };
+
+// modal board item
 
 export const editBoardItemDescription = (id: number, newValue: string): void => {
   const newData = JSON.parse(localStorage.getItem('records') || '');
@@ -101,4 +113,78 @@ export const editBoardItemDescription = (id: number, newValue: string): void => 
       }))
     )
   );
+};
+
+export const boardItemComment = (id: number): Array<CommentType> => {
+  const records = JSON.parse(localStorage.getItem('comments') || '');
+  return records.filter((item: CommentType) => {
+    return id === item.recordId;
+  });
+};
+
+export const deleteComment = (
+  id: number,
+  changeStateData: React.Dispatch<React.SetStateAction<CommentType[]>>,
+  currentStateData: Array<CommentType>
+): void => {
+  const records = JSON.parse(localStorage.getItem('comments') || '');
+
+  changeStateData(currentStateData.filter((item: CommentType) => item.id !== id));
+
+  localStorage.setItem(
+    'comments',
+    JSON.stringify(
+      records.filter((item: CommentType) => {
+        return id !== item.id;
+      })
+    )
+  );
+};
+
+export const setNewComment = (
+  id: number,
+  newValue: string,
+  changeStateData: React.Dispatch<React.SetStateAction<CommentType[]>>,
+  currentStateData: Array<CommentType>
+): void => {
+  const data: Array<CommentType> = JSON.parse(localStorage.getItem('comments') || '');
+
+  const newData: CommentType = {
+    id: newId(),
+    recordId: id,
+    label: newValue,
+    name: getAuthor(),
+  };
+
+  localStorage.setItem('comments', JSON.stringify([...data, newData]));
+
+  changeStateData([...currentStateData, newData]);
+};
+
+export const editComment = (
+  id: number,
+  newValue: string,
+  currentStateData: Array<CommentType>,
+  changeStateData: React.Dispatch<React.SetStateAction<CommentType[]>>
+): void => {
+  if (newValue !== '') {
+    const comments = JSON.parse(localStorage.getItem('comments') || '');
+
+    changeStateData(
+      currentStateData.map((item: CommentType) => ({
+        ...item,
+        label: id === item.id ? newValue : item.label,
+      }))
+    );
+
+    localStorage.setItem(
+      'comments',
+      JSON.stringify(
+        comments.map((item: RecordType) => ({
+          ...item,
+          label: id === item.id ? newValue : item.label,
+        }))
+      )
+    );
+  }
 };

@@ -5,18 +5,18 @@ import { editBoardItemDescription } from '../../../../utils/ServiceWorker';
 interface ItemDescriptionProps {
   id: number;
   description: string;
-  changeBoardItemState: Function;
+  changeBoardItemDescription: Function;
 }
 export default function ModalDescription({
   id,
   description,
-  changeBoardItemState,
+  changeBoardItemDescription,
 }: ItemDescriptionProps): JSX.Element {
   const [modalDescription, setModalDescription] = useState(description);
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setModalDescription(e.target.value);
-    changeBoardItemState(e.target.value);
+    changeBoardItemDescription(e.target.value);
   };
 
   // service worker
@@ -47,4 +47,5 @@ const Description = styled.input`
   border: none;
   overflow: auto;
   border-radius: 10px;
+  margin-bottom: 10px;
 `;

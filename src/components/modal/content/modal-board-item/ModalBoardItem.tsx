@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Description from './ModalBoardItemDescription';
+import CommentList from './ModalBoardItemComments';
+import { boardItemComment, newId, setNewComment } from '../../../../utils/ServiceWorker';
+import InputForm from '../../../forms/InputForm';
 
 interface ModalBoardItemProps {
   id: number;
   label: string;
   author: string;
   description: string;
-  changeBoardItemState: Function;
+  setBoardItemDescription: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export default function ModalBoardItem({
@@ -15,19 +18,50 @@ export default function ModalBoardItem({
   label,
   author,
   description,
-  changeBoardItemState,
+  setBoardItemDescription,
 }: ModalBoardItemProps): JSX.Element {
+  const [boardItemComments, setBoardItemComments] = useState(boardItemComment(id));
+  const [newInputValue, setNewInputValue] = useState('');
+  const [showAddModal, setShowAddModal] = useState(false);
+  useEffect(() => {
+    if (newInputValue !== '') {
+      setNewComment(id, newInputValue, setBoardItemComments, boardItemComments);
+      setNewInputValue('');
+    }
+  }, [boardItemComments, id, newInputValue]);
+
+  const comment = boardItemComments.map((item) => (
+    <CommentList
+      key={newId()}
+      id={item.id}
+      label={item.label}
+      name={item.name}
+      boardItemComments={boardItemComments}
+      setBoardItemComments={setBoardItemComments}
+    />
+  ));
+
   return (
     <>
+      <Title>{label}</Title>
+      <Subtitle>Author: {author}</Subtitle>
+      <Description
+        id={id}
+        description={description}
+        changeBoardItemDescription={setBoardItemDescription}
+      />
       <Scroll>
-        <Title>{label}</Title>
-        <Subtitle>Author: {author}</Subtitle>
-        <Description
-          id={id}
-          description={description}
-          changeBoardItemState={changeBoardItemState}
-        />
+        <Ul>{comment}</Ul>
       </Scroll>
+      {showAddModal ? (
+        <InputForm
+          setNewInputValue={setNewInputValue}
+          show={true}
+          setParentShowState={setShowAddModal}
+        />
+      ) : (
+        <AddComment onClick={() => setShowAddModal(true)}>Add comment</AddComment>
+      )}
     </>
   );
 }
@@ -51,6 +85,26 @@ const Title = styled.h1`
 
 const Scroll = styled.div`
   width: 100%;
-  height: 100%;
+  height: 350px;
   overflow: auto;
+`;
+const Ul = styled.ul`
+  height: 200px;
+  padding: 0;
+`;
+const AddComment = styled.button`
+  border: none;
+  display: block;
+  text-align: center;
+  background-color: inherit;
+  cursor: pointer;
+  color: #000;
+  width: 100%;
+  height: 40px;
+  :hover {
+    border: 1px solid #000;
+    border-radius: 5px;
+    background-color: #450045;
+    color: #fff;
+  }
 `;

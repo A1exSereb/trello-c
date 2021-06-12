@@ -15,9 +15,8 @@ interface BoardItemProps {
   author: string;
   dataId: number;
   description: string;
-  setBoardRecords: Function;
+  setBoardRecords: React.Dispatch<React.SetStateAction<RecordType[]>>;
   boardRecords: Array<RecordType>;
-  editDescription(id: number, newValue: string): void;
 }
 
 export default function BoardItem({
@@ -29,17 +28,17 @@ export default function BoardItem({
   boardRecords,
 }: BoardItemProps): JSX.Element | null {
   const [editingBoardItem, setEditingBoardItem] = useState(false);
-  const [boardItemLabel, setBoartItemLabel] = useState(label);
+  const [boardItemLabel] = useState(label);
   const [boardItemDescription, setBoardItemDescription] = useState(description);
   const [showModalBoardItem, setShowModalBoardItem] = useState(false);
   const [newInputValue, setNewInputValue] = useState('');
 
   useEffect(() => {
     if (newInputValue !== '') {
-      editRecord(id, newInputValue, setBoartItemLabel);
+      editRecord(id, newInputValue, boardRecords, setBoardRecords);
       setNewInputValue('');
     }
-  }, [editingBoardItem, id, newInputValue]);
+  }, [setBoardRecords, id, newInputValue, boardRecords]);
 
   if (label === '') return null;
 
@@ -75,7 +74,7 @@ export default function BoardItem({
               description={boardItemDescription}
               label={boardItemLabel}
               id={id}
-              changeBoardItemState={setBoardItemDescription}
+              setBoardItemDescription={setBoardItemDescription}
             />
           }
         />

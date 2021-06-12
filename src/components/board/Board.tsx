@@ -5,7 +5,7 @@ import BoardItem from './BoardItem';
 import InputForm from '../forms/InputForm';
 import Title from './BoardTitle';
 import styled from 'styled-components';
-import { setNewRecord, thisBoardRecord } from '../../utils/ServiceWorker';
+import { setNewRecord, boardRecord } from '../../utils/ServiceWorker';
 import { RecordType } from '../../data/data-types';
 
 interface BoardProps {
@@ -15,7 +15,7 @@ interface BoardProps {
 
 export default function NewBoard({ id, title }: BoardProps): JSX.Element {
   const [boardTitle] = useState(title);
-  const [boardRecords, setBoardRecords] = useState(thisBoardRecord(id));
+  const [boardRecords, setBoardRecords] = useState(boardRecord(id));
   const [showAddModal, setShowAddModal] = useState(false);
   const [newInputValue, setNewInputValue] = useState('');
 
@@ -26,17 +26,6 @@ export default function NewBoard({ id, title }: BoardProps): JSX.Element {
       setNewInputValue('');
     }
   }, [boardRecords, id, newInputValue, showAddModal]);
-
-  const editDescription = (id: number, newValue: string): void => {
-    if (newValue !== '') {
-      setBoardRecords(
-        boardRecords.map((item: RecordType) => ({
-          ...item,
-          description: item.id === id ? newValue : item.description,
-        }))
-      );
-    }
-  };
 
   const boardItems = boardRecords.map((item: RecordType) => {
     return (
@@ -49,7 +38,6 @@ export default function NewBoard({ id, title }: BoardProps): JSX.Element {
         description={item.description}
         setBoardRecords={setBoardRecords}
         boardRecords={boardRecords}
-        editDescription={editDescription}
       />
     );
   });
