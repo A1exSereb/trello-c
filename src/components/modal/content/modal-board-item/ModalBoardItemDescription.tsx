@@ -27,15 +27,21 @@ export default function ModalDescription({
     setAddingDescription(false);
   };
 
+  const deleteDescription = () => {
+    setModalDescription('');
+    editBoardItemDescription(id, '');
+    changeBoardItemDescription('');
+  };
+
   return addingDescription ? (
     <DescriptionContainer>
       <Description onInput={handleOnChange} value={modalDescription} onBlur={handleOnBlur} />
-      <DeleteButton onClick={() => setModalDescription('')}>X</DeleteButton>
+      <DeleteButton onClick={() => deleteDescription()}>X</DeleteButton>
     </DescriptionContainer>
   ) : modalDescription !== '' ? (
     <DescriptionContainer>
       <Description onInput={handleOnChange} value={modalDescription} onBlur={handleOnBlur} />
-      <DeleteButton onClick={() => setModalDescription('')}>X</DeleteButton>
+      <DeleteButton onClick={() => deleteDescription()}>X</DeleteButton>
     </DescriptionContainer>
   ) : (
     <AddDescription
