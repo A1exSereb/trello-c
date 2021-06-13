@@ -51,18 +51,20 @@ export default function BoardItem({
   ) : (
     <Li key={id} className="board__item" onDoubleClick={() => setShowModalBoardItem(true)}>
       {boardItemLabel}
-      <Image
-        className="item__button-edit"
-        onClick={() => setEditingBoardItem(true)}
-        src={EditIcon}
-        alt="edit"
-      />
-      <Image
-        className="item__button-delete"
-        onClick={() => deleteBoardItem(id, setBoardRecords, boardRecords)}
-        src={TrashIcon}
-        alt="delete"
-      />
+      <div>
+        <Image
+          className="item__button-edit"
+          onClick={() => setEditingBoardItem(true)}
+          src={EditIcon}
+          alt="edit"
+        />
+        <Image
+          className="item__button-delete"
+          onClick={() => deleteBoardItem(id, setBoardRecords, boardRecords)}
+          src={TrashIcon}
+          alt="delete"
+        />
+      </div>
       {showModalBoardItem ? (
         <Modal
           active={showModalBoardItem}
@@ -93,6 +95,8 @@ const Image = styled.img`
   cursor: pointer;
 `;
 const Li = styled.li`
+  display: flex;
+  flex-direction: column;
   list-style: none;
   word-wrap: break-word;
   border: 1px solid #000;

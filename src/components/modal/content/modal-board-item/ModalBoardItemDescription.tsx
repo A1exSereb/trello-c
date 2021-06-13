@@ -14,7 +14,7 @@ export default function ModalDescription({
 }: ItemDescriptionProps): JSX.Element {
   const [modalDescription, setModalDescription] = useState(description);
 
-  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleOnChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setModalDescription(e.target.value);
     changeBoardItemDescription(e.target.value);
   };
@@ -27,9 +27,8 @@ export default function ModalDescription({
 
   return (
     <Description
-      onChange={handleOnChange}
-      value={modalDescription}
-      multiple
+      onInput={handleOnChange}
+      value={modalDescription !== '' ? modalDescription : 'Write description here...'}
       onBlur={handleOnBlur}
     />
   );
@@ -37,15 +36,20 @@ export default function ModalDescription({
 
 // styles
 
-const Description = styled.input`
-  width: 90%;
-  background-color: #a09f9f;
+const Description = styled.textarea`
+  width: 100%;
+  background-color: inherit;
+  font-size: 20px;
+  text-align: top;
+  overflow: auto;
+  resize: none;
+  white-space: normal;
   border: 1px solid black;
   height: 100px;
   padding: 5px;
   margin: 0 auto;
-  border: none;
-  overflow: auto;
+  margin-top: 10px;
+  border: 1px solid black;
   border-radius: 10px;
   margin-bottom: 10px;
 `;

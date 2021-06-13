@@ -17,7 +17,7 @@ export default function InputForm({
 
   if (!showInputForm) return null;
 
-  const handlerInput = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const handlerInput = (e: React.ChangeEvent<HTMLTextAreaElement>): void => {
     setInputValue(e.target.value);
   };
 
@@ -34,26 +34,37 @@ export default function InputForm({
   if (!showInputForm) return null;
 
   return (
-    <form className="inputform" onSubmit={onSubmit}>
-      <Input className="inputform__input" value={inputValue} onChange={handlerInput} type="text" />
-      <OkButton className="inputform__button-add" onClick={() => setNewInputValue(inputValue)}>
-        Yes
-      </OkButton>
-      <CancelButton className="inputform__button-close" onClick={onClose}>
-        No
-      </CancelButton>
-    </form>
+    <Form className="inputform" onSubmit={onSubmit}>
+      <Input className="inputform__input" value={inputValue} onInput={handlerInput} />
+      <div>
+        <OkButton className="inputform__button-add" onClick={() => setNewInputValue(inputValue)}>
+          Submit
+        </OkButton>
+        <CancelButton className="inputform__button-close" onClick={onClose}>
+          Cancel
+        </CancelButton>
+      </div>
+    </Form>
   );
 }
 // styles
-const Input = styled.input`
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+`;
+
+const Input = styled.textarea`
   background-color: #d7d7d7;
-  width: 65%;
+  margin-top: 5px;
+  width: 95%;
+  resize: none;
+  align-self: flex-start;
+  height: 50px;
   border: 1px solid #000;
-  border-top-left-radius: 5px;
-  border-bottom-left-radius: 5px;
+  border-radius: 5px;
   padding: 3px;
-  border-right: none;
   outline: none;
 `;
 
@@ -66,6 +77,9 @@ const Button = styled.button`
 `;
 const OkButton = styled(Button)`
   border-right: none;
+  margin-right: 1px;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
   :hover {
     background-color: #fff;
     color: #000;

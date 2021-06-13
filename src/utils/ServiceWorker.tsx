@@ -6,7 +6,7 @@ export const newId = (): number => {
   return Math.random() + i++;
 };
 
-export const getAuthor = () => {
+export const getAuthor = (): string => {
   const author = localStorage.getItem('name');
   return author || '';
 };

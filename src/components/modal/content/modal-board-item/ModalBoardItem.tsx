@@ -90,16 +90,17 @@ const Scroll = styled.div`
 `;
 const Ul = styled.ul`
   height: 200px;
-  padding: 0;
+  padding: 20px;
 `;
 const AddComment = styled.button`
   border: none;
   display: block;
   text-align: center;
+  margin-top: 10px;
   background-color: inherit;
   cursor: pointer;
   color: #000;
-  width: 100%;
+  width: 200px;
   height: 40px;
   :hover {
     border: 1px solid #000;
