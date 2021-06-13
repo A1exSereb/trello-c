@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import AddForm from '../forms/InputForm';
 import styled from 'styled-components';
-import { deleteBoardItem } from '../../utils/ServiceWorker';
+import { boardItemComment, deleteBoardItem } from '../../utils/ServiceWorker';
 import { RecordType } from '../../data/data-types';
 import TrashIcon from '../../assets/icons/delete-icon.svg';
 import EditIcon from '../../assets/icons/edit-icon.svg';
@@ -14,6 +14,7 @@ interface BoardItemProps {
   label: string;
   author: string;
   dataId: number;
+  boardTitle: string;
   description: string;
   setBoardRecords: React.Dispatch<React.SetStateAction<RecordType[]>>;
   boardRecords: Array<RecordType>;
@@ -24,12 +25,14 @@ export default function BoardItem({
   label,
   author,
   description,
+  boardTitle,
   setBoardRecords,
   boardRecords,
 }: BoardItemProps): JSX.Element | null {
   const [editingBoardItem, setEditingBoardItem] = useState(false);
   const [boardItemLabel] = useState(label);
   const [boardItemDescription, setBoardItemDescription] = useState(description);
+  const [boardItemComments, setBoardItemComments] = useState(boardItemComment(id));
   const [showModalBoardItem, setShowModalBoardItem] = useState(false);
   const [newInputValue, setNewInputValue] = useState('');
 
@@ -49,43 +52,58 @@ export default function BoardItem({
       setParentShowState={setEditingBoardItem}
     />
   ) : (
-    <Li key={id} className="board__item" onDoubleClick={() => setShowModalBoardItem(true)}>
-      {boardItemLabel}
-      <div>
-        <Image
-          className="item__button-edit"
-          onClick={() => setEditingBoardItem(true)}
-          src={EditIcon}
-          alt="edit"
-        />
-        <Image
-          className="item__button-delete"
-          onClick={() => deleteBoardItem(id, setBoardRecords, boardRecords)}
-          src={TrashIcon}
-          alt="delete"
-        />
-      </div>
-      {showModalBoardItem ? (
-        <Modal
-          active={showModalBoardItem}
-          setParentModalShow={setShowModalBoardItem}
-          allowClose={true}
-          content={
-            <ModalBoardItem
-              author={author}
-              description={boardItemDescription}
-              label={boardItemLabel}
-              id={id}
-              setBoardItemDescription={setBoardItemDescription}
-            />
-          }
-        />
-      ) : null}
-    </Li>
+    <>
+      <Li key={id} className="board__item" onDoubleClick={() => setShowModalBoardItem(true)}>
+        {boardItemLabel}
+        <div>
+          <Image
+            className="item__button-edit"
+            onClick={() => setEditingBoardItem(true)}
+            src={EditIcon}
+            alt="edit"
+          />
+          <Image
+            className="item__button-delete"
+            onClick={() => deleteBoardItem(id, setBoardRecords, boardRecords)}
+            src={TrashIcon}
+            alt="delete"
+          />
+        </div>
+        {showModalBoardItem ? (
+          <Modal
+            active={showModalBoardItem}
+            setParentModalShow={setShowModalBoardItem}
+            allowClose={true}
+            content={
+              <ModalBoardItem
+                author={author}
+                description={boardItemDescription}
+                boardTitle={boardTitle}
+                label={boardItemLabel}
+                id={id}
+                boardItemComments={boardItemComments}
+                setBoardItemComments={setBoardItemComments}
+                setBoardItemDescription={setBoardItemDescription}
+              />
+            }
+          />
+        ) : null}
+      </Li>
+      <CommentCount>Comments: {boardItemComments.length}</CommentCount>
+    </>
   );
 }
 
 // styles
+const CommentCount = styled.div`
+  height: 20px;
+  display: inline;
+  border: 1px solid #000;
+  border-top: none;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  background-color: gray;
+`;
 
 const Image = styled.img`
   width: 13px;
@@ -101,9 +119,10 @@ const Li = styled.li`
   word-wrap: break-word;
   border: 1px solid #000;
   text-align: left;
-  margin-top: 1px;
+  margin-top: 3px;
   padding: 3px;
   cursor: pointer;
   border-radius: 5px;
+  border-bottom-left-radius: 0;
   background-color: #fff;
 `;

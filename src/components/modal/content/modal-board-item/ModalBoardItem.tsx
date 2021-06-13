@@ -2,14 +2,18 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Description from './ModalBoardItemDescription';
 import CommentList from './ModalBoardItemComments';
-import { boardItemComment, newId, setNewComment } from '../../../../utils/ServiceWorker';
+import { newId, setNewComment } from '../../../../utils/ServiceWorker';
 import InputForm from '../../../forms/InputForm';
+import { CommentType } from '../../../../data/data-types';
 
 interface ModalBoardItemProps {
   id: number;
   label: string;
   author: string;
+  boardTitle: string;
   description: string;
+  boardItemComments: Array<CommentType>;
+  setBoardItemComments: React.Dispatch<React.SetStateAction<CommentType[]>>;
   setBoardItemDescription: React.Dispatch<React.SetStateAction<string>>;
 }
 
@@ -17,10 +21,12 @@ export default function ModalBoardItem({
   id,
   label,
   author,
+  boardTitle,
   description,
+  boardItemComments,
+  setBoardItemComments,
   setBoardItemDescription,
 }: ModalBoardItemProps): JSX.Element {
-  const [boardItemComments, setBoardItemComments] = useState(boardItemComment(id));
   const [newInputValue, setNewInputValue] = useState('');
   const [showAddModal, setShowAddModal] = useState(false);
   useEffect(() => {
@@ -43,6 +49,7 @@ export default function ModalBoardItem({
 
   return (
     <>
+      <Title>{boardTitle}</Title>
       <Title>{label}</Title>
       <Subtitle>Author: {author}</Subtitle>
       <Description

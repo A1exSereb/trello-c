@@ -27,12 +27,13 @@ export default function NewBoard({ id, title }: BoardProps): JSX.Element {
     }
   }, [boardRecords, id, newInputValue, showAddModal]);
 
-  const boardItems = boardRecords.map((item: RecordType) => {
+  const boardItems = boardRecords.map((item) => {
     return (
       <BoardItem
         key={Math.random()}
         id={item.id}
         label={item.label}
+        boardTitle={boardTitle}
         author={item.author}
         dataId={item.dataId}
         description={item.description}
