@@ -14,7 +14,7 @@ interface BoardProps {
 }
 
 export default function NewBoard({ id, title }: BoardProps): JSX.Element {
-  const [boardTitle] = useState(title);
+  const [boardTitle, setBoardTitle] = useState(title);
   const [boardRecords, setBoardRecords] = useState(boardRecord(id));
   const [showAddModal, setShowAddModal] = useState(false);
   const [newInputValue, setNewInputValue] = useState('');
@@ -45,7 +45,7 @@ export default function NewBoard({ id, title }: BoardProps): JSX.Element {
 
   return (
     <Board className="board" key={id}>
-      <Title key={id} title={boardTitle} id={id} />
+      <Title key={id} title={boardTitle} setParentBoardTitle={setBoardTitle} id={id} />
       <Ul className="board__list">{boardItems}</Ul>
       {showAddModal ? (
         <InputForm

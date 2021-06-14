@@ -5,9 +5,10 @@ import styled from 'styled-components';
 interface TitleProps {
   title: string;
   id: number;
+  setParentBoardTitle: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export default function Title({ title, id }: TitleProps): JSX.Element {
+export default function Title({ title, id, setParentBoardTitle }: TitleProps): JSX.Element {
   const [boardTitle, setBoardTitle] = useState(title);
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -16,6 +17,7 @@ export default function Title({ title, id }: TitleProps): JSX.Element {
 
   const handleOnBlur = () => {
     editBoardTitle(id, boardTitle);
+    setParentBoardTitle(boardTitle);
   };
 
   return (
