@@ -30,7 +30,7 @@ export default function CommentList({
   }, [id, newInputValue, boardItemComments, setBoardItemComments]);
 
   return (
-    <Li key={id}>
+    <Li className='modalboarditem__list-item' key={id}>
       <Label>{name} say:</Label>
       {editingBoardItem ? (
         <AddForm

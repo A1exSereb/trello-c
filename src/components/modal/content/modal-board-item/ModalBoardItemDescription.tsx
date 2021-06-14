@@ -34,17 +34,18 @@ export default function ModalDescription({
   };
 
   return addingDescription ? (
-    <DescriptionContainer>
-      <Description onInput={handleOnChange} value={modalDescription} onBlur={handleOnBlur} />
-      <DeleteButton onClick={() => deleteDescription()}>X</DeleteButton>
+    <DescriptionContainer className='description__container'>
+      <Description className='description__input' onInput={handleOnChange} value={modalDescription} onBlur={handleOnBlur} />
+      <DeleteButton className='description__button-delete' onClick={() => deleteDescription()}>X</DeleteButton>
     </DescriptionContainer>
   ) : modalDescription !== '' ? (
-    <DescriptionContainer>
-      <Description onInput={handleOnChange} value={modalDescription} onBlur={handleOnBlur} />
-      <DeleteButton onClick={() => deleteDescription()}>X</DeleteButton>
+    <DescriptionContainer className='description__container'>
+      <Description className='description__input' onInput={handleOnChange} value={modalDescription} onBlur={handleOnBlur} />
+      <DeleteButton className='description__button-delete' onClick={() => deleteDescription()}>X</DeleteButton>
     </DescriptionContainer>
   ) : (
     <AddDescription
+      className='description__button-add'
       onClick={() => {
         setModalDescription('You can write description here...');
         setAddingDescription(true);

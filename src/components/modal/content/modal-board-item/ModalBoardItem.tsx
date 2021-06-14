@@ -49,16 +49,16 @@ export default function ModalBoardItem({
 
   return (
     <>
-      <Title>{boardTitle}</Title>
-      <Title>{label}</Title>
-      <Subtitle>Author: {author}</Subtitle>
+      <Title className='modalboarditem__title'>{boardTitle}</Title>
+      <Title className='modalboarditem__title'>{label}</Title>
+      <Subtitle className='modalboarditem__subtitle'>Author: {author}</Subtitle>
       <Description
         id={id}
         description={description}
         changeBoardItemDescription={setBoardItemDescription}
       />
       <Scroll>
-        <Ul>{comment}</Ul>
+        <Ul className='modalboarditem__list'>{comment}</Ul>
       </Scroll>
       {showAddModal ? (
         <InputForm
@@ -67,7 +67,7 @@ export default function ModalBoardItem({
           setParentShowState={setShowAddModal}
         />
       ) : (
-        <AddComment onClick={() => setShowAddModal(true)}>Add comment</AddComment>
+        <AddComment className='modalboarditem__button-add' onClick={() => setShowAddModal(true)}>Add comment</AddComment>
       )}
     </>
   );
