@@ -33,27 +33,57 @@ export default function ModalDescription({
     changeBoardItemDescription('');
   };
 
-  return addingDescription ? (
-    <DescriptionContainer className='description__container'>
-      <Description className='description__input' onInput={handleOnChange} value={modalDescription} onBlur={handleOnBlur} />
-      <DeleteButton className='description__button-delete' onClick={() => deleteDescription()}>X</DeleteButton>
-    </DescriptionContainer>
-  ) : modalDescription !== '' ? (
-    <DescriptionContainer className='description__container'>
-      <Description className='description__input' onInput={handleOnChange} value={modalDescription} onBlur={handleOnBlur} />
-      <DeleteButton className='description__button-delete' onClick={() => deleteDescription()}>X</DeleteButton>
-    </DescriptionContainer>
-  ) : (
-    <AddDescription
-      className='description__button-add'
-      onClick={() => {
-        setModalDescription('You can write description here...');
-        setAddingDescription(true);
-      }}
-    >
-      Add description
-    </AddDescription>
-  );
+  const toggleAddingDescription = () => {
+    if (addingDescription) {
+      return (
+        <DescriptionContainer className="description__container">
+          <Description
+            className="description__input"
+            onInput={handleOnChange}
+            value={modalDescription}
+            onBlur={handleOnBlur}
+            placeholder={'Write description here...'}
+          />
+          <DeleteButton className="description__button-delete" onClick={() => deleteDescription()}>
+            X
+          </DeleteButton>
+        </DescriptionContainer>
+      );
+    } else {
+      if (modalDescription !== '') {
+        return (
+          <DescriptionContainer className="description__container">
+            <Description
+              className="description__input"
+              onInput={handleOnChange}
+              value={modalDescription}
+              onBlur={handleOnBlur}
+              placeholder={'Write description here...'}
+            />
+            <DeleteButton
+              className="description__button-delete"
+              onClick={() => deleteDescription()}
+            >
+              X
+            </DeleteButton>
+          </DescriptionContainer>
+        );
+      } else {
+        return (
+          <AddDescription
+            className="description__button-add"
+            onClick={() => {
+              setAddingDescription(true);
+            }}
+          >
+            Add description
+          </AddDescription>
+        );
+      }
+    }
+  };
+
+  return toggleAddingDescription();
 }
 
 // styles

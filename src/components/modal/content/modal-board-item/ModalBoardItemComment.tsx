@@ -5,7 +5,7 @@ import { CommentType } from '../../../../data/data-types';
 import EditIcon from '../../../../assets/icons/edit-icon.svg';
 import TrashIcon from '../../../../assets/icons/delete-icon.svg';
 import { deleteComment, editComment, getAuthor } from '../../../../utils/ServiceWorker';
-interface CommentListProps {
+interface CommentProps {
   id: number;
   label: string;
   name: string;
@@ -13,13 +13,13 @@ interface CommentListProps {
   boardItemComments: Array<CommentType>;
 }
 
-export default function CommentList({
+export default function Comment({
   id,
   label,
   name,
   setBoardItemComments,
   boardItemComments,
-}: CommentListProps): JSX.Element {
+}: CommentProps): JSX.Element {
   const [editingBoardItem, setEditingBoardItem] = useState(false);
   const [newInputValue, setNewInputValue] = useState('');
   useEffect(() => {
@@ -29,19 +29,20 @@ export default function CommentList({
     }
   }, [id, newInputValue, boardItemComments, setBoardItemComments]);
 
-  return (
-    <Li className='modalboarditem__list-item' key={id}>
-      <Label>{name} say:</Label>
-      {editingBoardItem ? (
+  const toggleEdit = () => {
+    if (editingBoardItem) {
+      return (
         <AddForm
           show={true}
           setNewInputValue={setNewInputValue}
           setParentShowState={setEditingBoardItem}
         />
-      ) : (
+      );
+    } else {
+      return (
         <>
           <div>{label}</div>
-          {name === getAuthor() ? (
+          {name === getAuthor() && (
             <>
               <Image
                 className="item__button-edit"
@@ -56,9 +57,16 @@ export default function CommentList({
                 alt="delete"
               />
             </>
-          ) : null}
+          )}
         </>
-      )}
+      );
+    }
+  };
+
+  return (
+    <Li className="modalboarditem__list-item" key={id}>
+      <Label>{name} say:</Label>
+      {toggleEdit()}
     </Li>
   );
 }

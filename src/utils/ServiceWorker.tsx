@@ -75,18 +75,20 @@ export const deleteBoardItem = (
 export const editRecord = (
   id: number,
   newValue: string,
-  currentStateData: Array<RecordType>,
-  changeStateData: React.Dispatch<React.SetStateAction<RecordType[]>>
+  currentStateData?: Array<RecordType>,
+  changeStateData?: React.Dispatch<React.SetStateAction<RecordType[]>>
 ): void => {
   if (newValue !== '') {
     const records = JSON.parse(localStorage.getItem('records') || '');
 
-    changeStateData(
-      currentStateData.map((item: RecordType) => ({
-        ...item,
-        label: id === item.id ? newValue : item.label,
-      }))
-    );
+    if (changeStateData && currentStateData) {
+      changeStateData(
+        currentStateData.map((item: RecordType) => ({
+          ...item,
+          label: id === item.id ? newValue : item.label,
+        }))
+      );
+    }
 
     localStorage.setItem(
       'records',

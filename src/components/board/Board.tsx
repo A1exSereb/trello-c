@@ -54,7 +54,9 @@ export default function NewBoard({ id, title }: BoardProps): JSX.Element {
           setParentShowState={setShowAddModal}
         />
       ) : (
-        <AddItem className="board__additem" onClick={() => setShowAddModal(true)}>Add</AddItem>
+        <AddItem className="board__additem" onClick={() => setShowAddModal(true)}>
+          Add
+        </AddItem>
       )}
     </Board>
   );

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Description from './ModalBoardItemDescription';
-import CommentList from './ModalBoardItemComments';
-import { newId, setNewComment } from '../../../../utils/ServiceWorker';
+import Comment from './ModalBoardItemComment';
+import { editRecord, newId, setNewComment } from '../../../../utils/ServiceWorker';
 import InputForm from '../../../forms/InputForm';
 import { CommentType } from '../../../../data/data-types';
 
@@ -15,6 +15,7 @@ interface ModalBoardItemProps {
   boardItemComments: Array<CommentType>;
   setBoardItemComments: React.Dispatch<React.SetStateAction<CommentType[]>>;
   setBoardItemDescription: React.Dispatch<React.SetStateAction<string>>;
+  setBoardItemLabel: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export default function ModalBoardItem({
@@ -26,6 +27,7 @@ export default function ModalBoardItem({
   boardItemComments,
   setBoardItemComments,
   setBoardItemDescription,
+  setBoardItemLabel,
 }: ModalBoardItemProps): JSX.Element {
   const [newInputValue, setNewInputValue] = useState('');
   const [showAddModal, setShowAddModal] = useState(false);
@@ -34,10 +36,19 @@ export default function ModalBoardItem({
       setNewComment(id, newInputValue, setBoardItemComments, boardItemComments);
       setNewInputValue('');
     }
-  }, [boardItemComments, id, newInputValue]);
+  }, [boardItemComments, id, newInputValue, setBoardItemComments]);
+
+  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setBoardItemLabel(e.target.value);
+  };
+
+  const handleOnBlur = () => {
+    editRecord(id, label);
+    setBoardItemLabel(label);
+  };
 
   const comment = boardItemComments.map((item) => (
-    <CommentList
+    <Comment
       key={newId()}
       id={item.id}
       label={item.label}
@@ -49,16 +60,21 @@ export default function ModalBoardItem({
 
   return (
     <>
-      <Title className='modalboarditem__title'>{boardTitle}</Title>
-      <Title className='modalboarditem__title'>{label}</Title>
-      <Subtitle className='modalboarditem__subtitle'>Author: {author}</Subtitle>
+      <Title className="modalboarditem__title">{boardTitle}</Title>
+      <Subtitle
+        className="modalboarditem__title"
+        value={label}
+        onChange={handleOnChange}
+        onBlur={handleOnBlur}
+      ></Subtitle>
+      <Author className="modalboarditem__subtitle">Author: {author}</Author>
       <Description
         id={id}
         description={description}
         changeBoardItemDescription={setBoardItemDescription}
       />
       <Scroll>
-        <Ul className='modalboarditem__list'>{comment}</Ul>
+        <Ul className="modalboarditem__list">{comment}</Ul>
       </Scroll>
       {showAddModal ? (
         <InputForm
@@ -67,13 +83,15 @@ export default function ModalBoardItem({
           setParentShowState={setShowAddModal}
         />
       ) : (
-        <AddComment className='modalboarditem__button-add' onClick={() => setShowAddModal(true)}>Add comment</AddComment>
+        <AddComment className="modalboarditem__button-add" onClick={() => setShowAddModal(true)}>
+          Add comment
+        </AddComment>
       )}
     </>
   );
 }
 
-const Subtitle = styled.h2`
+const Author = styled.h2`
   margin: 0;
   position: absolute;
   top: 3px;
@@ -88,6 +106,19 @@ const Title = styled.h1`
   text-align: left;
   margin: 0;
   font-size: 30px;
+`;
+const Subtitle = styled.input`
+  cursor: pointer;
+  word-wrap: break-word;
+  background-color: inherit;
+  font-size: 26px;
+  font-weight: 700;
+  height: 80px;
+  width: 100%;
+  margin-top: 0;
+  border: none;
+  margin-bottom: 5px;
+  color: #000;
 `;
 
 const Scroll = styled.div`

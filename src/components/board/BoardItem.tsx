@@ -6,7 +6,7 @@ import { RecordType } from '../../data/data-types';
 import TrashIcon from '../../assets/icons/delete-icon.svg';
 import EditIcon from '../../assets/icons/edit-icon.svg';
 import Modal from '../modal/Modal';
-import ModalBoardItem from '../modal/content/modal-board-item/ModalBoardItem';
+import ModalBoardItem from '../modal/content/modal-board-item';
 import { editRecord } from '../../utils/ServiceWorker';
 
 interface BoardItemProps {
@@ -30,7 +30,7 @@ export default function BoardItem({
   boardRecords,
 }: BoardItemProps): JSX.Element | null {
   const [editingBoardItem, setEditingBoardItem] = useState(false);
-  const [boardItemLabel] = useState(label);
+  const [boardItemLabel, setBoardItemLabel] = useState(label);
   const [boardItemDescription, setBoardItemDescription] = useState(description);
   const [boardItemComments, setBoardItemComments] = useState(boardItemComment(id));
   const [showModalBoardItem, setShowModalBoardItem] = useState(false);
@@ -69,7 +69,7 @@ export default function BoardItem({
             alt="delete"
           />
         </div>
-        {showModalBoardItem ? (
+        {showModalBoardItem && (
           <Modal
             active={showModalBoardItem}
             setParentModalShow={setShowModalBoardItem}
@@ -80,6 +80,7 @@ export default function BoardItem({
                 description={boardItemDescription}
                 boardTitle={boardTitle}
                 label={boardItemLabel}
+                setBoardItemLabel={setBoardItemLabel}
                 id={id}
                 boardItemComments={boardItemComments}
                 setBoardItemComments={setBoardItemComments}
@@ -87,7 +88,7 @@ export default function BoardItem({
               />
             }
           />
-        ) : null}
+        )}
       </Li>
       <CommentCount>Comments: {boardItemComments.length}</CommentCount>
     </>
