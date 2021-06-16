@@ -8,7 +8,7 @@ interface TitleProps {
   setParentBoardTitle: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export default function Title({ title, id, setParentBoardTitle }: TitleProps): JSX.Element {
+export default function BoardTitle({ title, id, setParentBoardTitle }: TitleProps): JSX.Element {
   const [boardTitle, setBoardTitle] = useState(title);
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -21,7 +21,7 @@ export default function Title({ title, id, setParentBoardTitle }: TitleProps): J
   };
 
   return (
-    <BoardTitle
+    <Title
       className="board__title"
       onChange={handleOnChange}
       value={boardTitle}
@@ -32,7 +32,7 @@ export default function Title({ title, id, setParentBoardTitle }: TitleProps): J
 }
 
 // styles
-const BoardTitle = styled.input`
+const Title = styled.input`
   cursor: pointer;
   word-wrap: break-word;
   background-color: inherit;

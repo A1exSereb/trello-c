@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import Description from './ModalBoardItemDescription';
+import ModalBoardItemDescription from './ModalBoardItemDescription';
 import Comment from './ModalBoardItemComment';
 import { editRecord, newId, setNewComment } from '../../../../utils/ServiceWorker';
 import InputForm from '../../../forms/InputForm';
@@ -68,7 +68,7 @@ export default function ModalBoardItem({
         onBlur={handleOnBlur}
       ></Subtitle>
       <Author className="modalboarditem__subtitle">Author: {author}</Author>
-      <Description
+      <ModalBoardItemDescription
         id={id}
         description={description}
         changeBoardItemDescription={setBoardItemDescription}

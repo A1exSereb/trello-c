@@ -1,8 +1,8 @@
 import React from 'react';
 import './App.css';
 import Authorization from './components/modal/content/ModalAuthorization';
-import Modal from './components/modal/Modal';
-import Board from './components/board/Board';
+import Modal from './components/modal';
+import Board from './components/board';
 import { data, records, comments } from './data/data';
 import { newId } from './utils/ServiceWorker';
 import { DataType } from './data/data-types';

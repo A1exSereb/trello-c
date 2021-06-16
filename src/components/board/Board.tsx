@@ -3,10 +3,9 @@
 import React, { useState, useEffect } from 'react';
 import BoardItem from './BoardItem';
 import InputForm from '../forms/InputForm';
-import Title from './BoardTitle';
+import BoardTitle from './BoardTitle';
 import styled from 'styled-components';
 import { setNewRecord, boardRecord } from '../../utils/ServiceWorker';
-import { RecordType } from '../../data/data-types';
 
 interface BoardProps {
   id: number;
@@ -45,7 +44,7 @@ export default function NewBoard({ id, title }: BoardProps): JSX.Element {
 
   return (
     <Board className="board" key={id}>
-      <Title key={id} title={boardTitle} setParentBoardTitle={setBoardTitle} id={id} />
+      <BoardTitle key={id} title={boardTitle} setParentBoardTitle={setBoardTitle} id={id} />
       <Ul className="board__list">{boardItems}</Ul>
       {showAddModal ? (
         <InputForm

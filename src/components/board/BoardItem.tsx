@@ -5,7 +5,7 @@ import { boardItemComment, deleteBoardItem } from '../../utils/ServiceWorker';
 import { RecordType } from '../../data/data-types';
 import TrashIcon from '../../assets/icons/delete-icon.svg';
 import EditIcon from '../../assets/icons/edit-icon.svg';
-import Modal from '../modal/Modal';
+import Modal from '../modal';
 import ModalBoardItem from '../modal/content/modal-board-item';
 import { editRecord } from '../../utils/ServiceWorker';
 

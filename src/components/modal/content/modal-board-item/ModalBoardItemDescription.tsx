@@ -7,7 +7,7 @@ interface ItemDescriptionProps {
   description: string;
   changeBoardItemDescription: Function;
 }
-export default function ModalDescription({
+export default function ModalBoardItemDescription({
   id,
   description,
   changeBoardItemDescription,

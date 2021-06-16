@@ -33,19 +33,6 @@ export default function Modal({
     setParentModalShow ? setParentModalShow(false) : null;
   };
 
-  /* const commetsList = comments.map((item) => {
-    return (
-      <li key={item.id}>
-        <div>{item.name}</div>
-        <div>
-          {item.label}
-          <Image src={EditIcon} alt="edit" />
-          <Image src={TrashIcon} alt="delete" />
-        </div>
-      </li>
-    );
-  }); */
-
   return allowClose ? (
     <ModalOverlay onKeyDown={(e) => handleKeyPress(e)} onClick={closeModal} tabIndex={-1}>
       <ModalContainer className="modal" onClick={(e) => e.stopPropagation()}>
