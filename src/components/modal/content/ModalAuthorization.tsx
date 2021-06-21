@@ -2,7 +2,7 @@ import React, { FormEvent, useContext, useState } from 'react';
 import styled from 'styled-components';
 import { ModalContext } from '../../../utils/Api';
 
-export default function Authorization(): JSX.Element | null {
+export default function ModalAuthorization(): JSX.Element | null {
   const [name, setName] = useState('');
   const [visible, setVisible] = useState(true);
   const setModalActive = useContext(ModalContext);

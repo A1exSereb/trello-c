@@ -44,14 +44,16 @@ export default function BoardItem({
   }, [setBoardRecords, id, newInputValue, boardRecords]);
 
   if (label === '') return null;
+  if (editingBoardItem)
+    return (
+      <AddForm
+        show={true}
+        setNewInputValue={setNewInputValue}
+        setParentShowState={setEditingBoardItem}
+      />
+    );
 
-  return editingBoardItem ? (
-    <AddForm
-      show={true}
-      setNewInputValue={setNewInputValue}
-      setParentShowState={setEditingBoardItem}
-    />
-  ) : (
+  return (
     <>
       <Li key={id} className="board__item" onDoubleClick={() => setShowModalBoardItem(true)}>
         {boardItemLabel}

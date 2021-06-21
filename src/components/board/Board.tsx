@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import BoardItem from './BoardItem';
 import InputForm from '../forms/InputForm';
@@ -12,7 +10,7 @@ interface BoardProps {
   title: string;
 }
 
-export default function NewBoard({ id, title }: BoardProps): JSX.Element {
+export default function Board({ id, title }: BoardProps): JSX.Element {
   const [boardTitle, setBoardTitle] = useState(title);
   const [boardRecords, setBoardRecords] = useState(boardRecord(id));
   const [showAddModal, setShowAddModal] = useState(false);
@@ -43,7 +41,7 @@ export default function NewBoard({ id, title }: BoardProps): JSX.Element {
   });
 
   return (
-    <Board className="board" key={id}>
+    <BoardContainer className="board" key={id}>
       <BoardTitle key={id} title={boardTitle} setParentBoardTitle={setBoardTitle} id={id} />
       <Ul className="board__list">{boardItems}</Ul>
       {showAddModal ? (
@@ -57,13 +55,13 @@ export default function NewBoard({ id, title }: BoardProps): JSX.Element {
           Add
         </AddItem>
       )}
-    </Board>
+    </BoardContainer>
   );
 }
 
 // styles
 
-const Board = styled.div`
+const BoardContainer = styled.div`
   width: 200px;
   padding: 10px;
   display: inline-block;

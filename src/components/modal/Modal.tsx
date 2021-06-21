@@ -65,14 +65,6 @@ const ModalContainer = styled.div`
   background-color: #fff;
 `;
 
-/* const Image = styled.img`
-  width: 13px;
-  height: 13px;
-  margin-left: 5px;
-  margin-top: 3px;
-  cursor: pointer;
-`; */
-
 const ModalOverlay = styled.div`
   width: 100%;
   height: 100%;

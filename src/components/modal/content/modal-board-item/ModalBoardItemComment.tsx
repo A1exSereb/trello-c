@@ -13,7 +13,7 @@ interface CommentProps {
   boardItemComments: Array<CommentType>;
 }
 
-export default function Comment({
+export default function BoardItemComment({
   id,
   label,
   name,

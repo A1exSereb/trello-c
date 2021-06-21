@@ -1,3 +1,3 @@
-import NewBoard from './Board';
+import Board from './Board';
 
-export default NewBoard;
+export default Board;
