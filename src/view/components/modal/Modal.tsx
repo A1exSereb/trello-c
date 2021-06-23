@@ -1,27 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { ModalContext } from '../../utils/Api';
 
 interface ItemDescriptionProps {
-  active: boolean;
-  author?: string;
-  label?: string;
   allowClose: boolean;
-  id?: number;
-  description?: string;
   content: JSX.Element | null;
   setParentModalShow?: Function;
 }
 export default function Modal({
-  active,
   allowClose,
   content,
   setParentModalShow,
 }: ItemDescriptionProps): JSX.Element | null {
-  const [modalActive, setModalActive] = useState(active);
-
-  if (!modalActive) return null;
-
   const handleKeyPress = (event: React.KeyboardEvent<HTMLDivElement>) => {
     if (event.code === 'Escape') {
       closeModal();
@@ -29,7 +18,6 @@ export default function Modal({
   };
 
   const closeModal = () => {
-    setModalActive(false);
     setParentModalShow ? setParentModalShow(false) : null;
   };
 
@@ -42,9 +30,7 @@ export default function Modal({
     </ModalOverlay>
   ) : (
     <ModalOverlay>
-      <ModalContainer className="modal">
-        <ModalContext.Provider value={setModalActive}>{content}</ModalContext.Provider>
-      </ModalContainer>
+      <ModalContainer className="modal">{content}</ModalContainer>
     </ModalOverlay>
   );
 }
@@ -61,7 +47,7 @@ const ModalContainer = styled.div`
   max-height: 630px;
   padding: 25px;
   padding-top: 35px;
-  overflow: auto;
+  overflow: hidden;
   background-color: #fff;
 `;
 
