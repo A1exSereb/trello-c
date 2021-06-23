@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { cardActions } from '../../../redux/ducks/card/actions';
+import { getSelectCommentsById } from '../../../redux/ducks/comment/selectors';
 import TrashIcon from '../../assets/delete-icon.svg';
 import ModalCard from '../modal/content/ModalCard/ModalCard';
 import Modal from '../modal/Modal';
@@ -13,9 +14,7 @@ interface CardProps {
 const Card = ({ id, label }: CardProps): JSX.Component => {
   const [openModal, setOpenModal] = useState(false);
   const dispatch = useDispatch();
-  const comment = useSelector((state: RootStateOrAny) =>
-    state.comment.filter((item) => item.recordId === id)
-  );
+  const comment = useSelector(getSelectCommentsById(id));
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const text = e.target.value;
@@ -41,7 +40,7 @@ const Card = ({ id, label }: CardProps): JSX.Component => {
   );
 };
 
-export default Card;
+export default React.memo(Card);
 
 const Label = styled.input`
   cursor: pointer;

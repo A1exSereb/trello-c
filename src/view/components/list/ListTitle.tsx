@@ -6,7 +6,7 @@ interface ListTitleProps {
   title: string;
   id: number;
 }
-export const ListTitle = ({ title, id }: ListTitleProps): JSX.Component => {
+const ListTitle = ({ title, id }: ListTitleProps): JSX.Component => {
   const dispatch = useDispatch();
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -15,6 +15,8 @@ export const ListTitle = ({ title, id }: ListTitleProps): JSX.Component => {
 
   return <Title className="board__title" value={title} onChange={onChange} />;
 };
+
+export default React.memo(ListTitle);
 
 const Title = styled.input`
   cursor: pointer;

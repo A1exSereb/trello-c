@@ -1,56 +1,47 @@
 import React from 'react';
-import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Card from '../card/Card';
-import { ListTitle } from './ListTitle';
+import ListTitle from './ListTitle';
 import InputForm from '../forms/InputForm';
 import { listActions } from '../../../redux/ducks/list/actions';
-// import { createSelector } from 'reselect';
+import { getSelectCardById } from '../../../redux/ducks/card/selectors';
 
-const Lists = () => {
+interface ListProps {
+  listId: number;
+  title: string;
+  adding: boolean;
+}
+const List = ({ listId, title, adding }: ListProps) => {
   const dispatch = useDispatch();
-  const list = useSelector((state: RootStateOrAny) => state.list);
-  const card = useSelector((state: RootStateOrAny) => state.card);
+  const card = useSelector(getSelectCardById(listId));
 
   return (
-    <>
-      {list.map((item) => {
-        const { id: listId, title, adding } = item;
-        return (
-          <List key={listId} className="board">
-            <ListTitle title={title} id={listId} />
-            <Ul key={listId}>
-              {card
-                .filter((item) => {
-                  console.log(item);
-                  return item.dataId === listId;
-                })
-                .map((item) => {
-                  console.log(item);
-                  return <Card key={item.id} label={item.label} id={item.id} />;
-                })}
-            </Ul>
-            {adding ? (
-              <InputForm id={listId} />
-            ) : (
-              <AddItem
-                className="board__additem"
-                onClick={() => dispatch(listActions.setAddCard(listId))}
-              >
-                Add
-              </AddItem>
-            )}
-          </List>
-        );
-      })}
-    </>
+    <Container key={listId} className="board">
+      <ListTitle title={title} id={listId} />
+      <Ul key={listId}>
+        {card.map((item) => {
+          return <Card key={item.id} label={item.label} id={item.id} />;
+        })}
+      </Ul>
+      {adding ? (
+        <InputForm id={listId} />
+      ) : (
+        <AddItem
+          className="board__additem"
+          onClick={() => dispatch(listActions.setAddCard(listId))}
+        >
+          Add
+        </AddItem>
+      )}
+    </Container>
   );
 };
 
-export default Lists;
+export default React.memo(List);
 // styles
 
-const List = styled.div`
+const Container = styled.div`
   width: 200px;
   padding: 10px;
   display: inline-block;
