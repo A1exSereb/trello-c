@@ -1,24 +1,46 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import _ from 'lodash';
-import Comment from './ModalCardComment';
+import ModalCardComment from './ModalCardComment';
 import InputForm from '../../../forms/InputForm';
+import { getSelectCardByCardId } from '../../../../../redux/ducks/card/selectors';
+import { useDispatch, useSelector } from 'react-redux';
+import ModalCardDesciption from './ModalCardDesciption';
+import { cardActions } from '../../../../../redux/ducks/card/actions';
+import { getListSelectorById } from '../../../../../redux/ducks/list/selectors';
 interface ModalCard {
   cardId: number;
-  comment: Array<any>;
+  comment: Array<{ id: number; recordId: number; name: string; label: string }>;
+  listId: number;
 }
-const ModalCard = ({ cardId, comment }: ModalCard): JSX.Component => {
+const ModalCard = ({ cardId, comment, listId }: ModalCard): JSX.Component => {
+  const card = useSelector(getSelectCardByCardId(cardId));
+  const { title } = useSelector(getListSelectorById(listId));
   const [addComment, setAddComment] = useState(false);
-  console.log(comment);
+  const dispatch = useDispatch();
+  const [currentCard] = card;
+  const { label, description, author } = currentCard;
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(cardActions.editCard(cardId, e.target.value));
+  };
   return (
     <>
-      <Title className="modalcard__title">ffff</Title>
-      <Title className="modalcard__title">ffff</Title>
-      <Subtitle className="modalcard__subtitle">Author: dddd</Subtitle>
+      <Title className="modalcard__title">{title}</Title>
+      <CardTitle className="modalcard__title" value={label} onChange={onChange} />
+      <Subtitle className="modalcard__subtitle">Author: {author}</Subtitle>
+      <ModalCardDesciption id={cardId} description={description} />
       <Scroll>
         <Ul className="modalcard__list">
           {_.map(comment, (item) => {
-            return <Comment key={item.id} id={item.id} label={item.label} author={item.author} />;
+            return (
+              <ModalCardComment
+                key={item.id}
+                id={item.id}
+                label={item.label}
+                author={item.author}
+              />
+            );
           })}
         </Ul>
       </Scroll>
@@ -39,6 +61,23 @@ const Subtitle = styled.h2`
   top: 3px;
   left: 20px;
   font-size: 16px;
+`;
+
+const CardTitle = styled.input`
+  cursor: pointer;
+  background-color: inherit;
+  font-size: 16px;
+  resize: none;
+  width: 98%;
+  max-height: 100%;
+  font-weight: 500;
+  margin-top: 0;
+  border: none;
+  margin-bottom: 5px;
+  overflow: hidden;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  color: #000;
 `;
 
 const Title = styled.h1`

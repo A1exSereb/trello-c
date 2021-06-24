@@ -34,7 +34,7 @@ const Card = ({ id, label }: CardProps): JSX.Component => {
         {openModal && (
           <Modal
             allowClose={true}
-            content={<ModalCard cardId={id} comment={comment} />}
+            content={<ModalCard cardId={id} comment={comment} listId={id} />}
             setParentModalShow={setOpenModal}
           />
         )}

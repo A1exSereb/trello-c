@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Form, Field } from 'react-final-form';
-import { useDispatch, useSelector } from 'react-redux';
+import { DefaultRootState, useDispatch, useSelector } from 'react-redux';
 import { cardActions } from '../../../redux/ducks/card/actions';
 import { listActions } from '../../../redux/ducks/list/actions';
 import { commentActions } from '../../../redux/ducks/comment/actions';
@@ -10,7 +10,7 @@ interface InputFormProps {
   parent: string;
   parentSetState?: React.Dispatch<React.SetStateAction<boolean>>;
 }
-const InputForm = ({ id, parent, parentSetState }: InputFormProps) => {
+const InputForm = ({ id, parent, parentSetState }: InputFormProps): JSX.Component => {
   const dispatch = useDispatch();
   const { name } = useSelector((state: DefaultRootState) => state.authorization);
   const onSubmit = (value) => {
@@ -40,7 +40,16 @@ const InputForm = ({ id, parent, parentSetState }: InputFormProps) => {
         break;
     }
   };
-
+  const placeholderText = () => {
+    switch (parent) {
+      case 'modal-card':
+        return 'comment text';
+      case 'list':
+        return 'card name';
+      default:
+        break;
+    }
+  };
   return (
     <Form
       name="card"
@@ -48,7 +57,7 @@ const InputForm = ({ id, parent, parentSetState }: InputFormProps) => {
       render={({ handleSubmit }) => (
         <form onSubmit={handleSubmit}>
           <div>
-            <Field name="text" component="input" placeholder="card name" />
+            <Field name="text" component="input" placeholder={placeholderText()} />
           </div>
 
           <OkButton type="submit">Ok</OkButton>

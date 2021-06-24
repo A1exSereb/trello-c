@@ -9,7 +9,7 @@ interface CommentProps {
   author: string;
 }
 
-const Comment = ({ id, label, author }: CommentProps): JSX.Element => {
+const ModalCardComment = ({ id, label, author }: CommentProps): JSX.Element => {
   const { name: userName } = useSelector((state: DefaultRootState) => state.authorization);
   const dispatch = useDispatch();
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,7 +39,7 @@ const Comment = ({ id, label, author }: CommentProps): JSX.Element => {
   );
 };
 
-export default React.memo(Comment);
+export default React.memo(ModalCardComment);
 
 const Li = styled.li`
   list-style: none;
@@ -68,7 +68,18 @@ const Label = styled.label`
 `;
 
 const Input = styled.input`
-  height: 20px;
-  border: none;
+  cursor: pointer;
   background-color: inherit;
+  font-size: 16px;
+  resize: none;
+  width: 98%;
+  max-height: 100%;
+  font-weight: 500;
+  margin-top: 0;
+  border: none;
+  margin-bottom: 5px;
+  overflow: hidden;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  color: #000;
 `;

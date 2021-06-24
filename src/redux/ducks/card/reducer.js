@@ -23,6 +23,16 @@ const cardReducer = (state = initialState, action) => {
         ...item,
         label: action.payload.id === item.id ? action.payload.text : item.label,
       }));
+    case cardActionTypes.EDIT_CARD_DESCRIPTION:
+      return _.map(state, (item) => ({
+        ...item,
+        description: item.id === action.payload.id ? action.payload.text : item.description,
+      }));
+    case cardActionTypes.DELETE_CARD_DESCRIPTION:
+      return _.map(state, (item) => ({
+        ...item,
+        description: item.id === action.payload ? '' : item.description,
+      }));
     default:
       return state;
   }

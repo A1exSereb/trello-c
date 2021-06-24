@@ -5,7 +5,7 @@ import Card from '../card/Card';
 import ListTitle from './ListTitle';
 import InputForm from '../forms/InputForm';
 import { listActions } from '../../../redux/ducks/list/actions';
-import { getSelectCardById } from '../../../redux/ducks/card/selectors';
+import { getSelectCardByListId } from '../../../redux/ducks/card/selectors';
 import _ from 'lodash';
 
 interface ListProps {
@@ -16,7 +16,7 @@ interface ListProps {
 
 const List = ({ listId, title, adding }: ListProps): JSX.Component => {
   const dispatch = useDispatch();
-  const card = useSelector(getSelectCardById(listId));
+  const card = useSelector(getSelectCardByListId(listId));
 
   return (
     <Container className="list">
