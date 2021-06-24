@@ -1,20 +1,38 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-
-const ModalCard = () => {
+import _ from 'lodash';
+import Comment from './ModalCardComment';
+import InputForm from '../../../forms/InputForm';
+interface ModalCard {
+  cardId: number;
+  comment: Array<any>;
+}
+const ModalCard = ({ cardId, comment }: ModalCard): JSX.Component => {
+  const [addComment, setAddComment] = useState(false);
+  console.log(comment);
   return (
     <>
-      <Title className="modalboarditem__title">ffff</Title>
-      <Title className="modalboarditem__title">ffff</Title>
-      <Subtitle className="modalboarditem__subtitle">Author: dddd</Subtitle>
+      <Title className="modalcard__title">ffff</Title>
+      <Title className="modalcard__title">ffff</Title>
+      <Subtitle className="modalcard__subtitle">Author: dddd</Subtitle>
       <Scroll>
-        <Ul className="modalboarditem__list">1</Ul>
+        <Ul className="modalcard__list">
+          {_.map(comment, (item) => {
+            return <Comment key={item.id} id={item.id} label={item.label} author={item.author} />;
+          })}
+        </Ul>
       </Scroll>
-      <AddComment className="modalboarditem__button-add">Add comment</AddComment>
+      {addComment ? (
+        <InputForm id={cardId} parent={'modal-card'} parentSetState={setAddComment} />
+      ) : (
+        <AddComment className="modalcard__button-add" onClick={() => setAddComment(true)}>
+          Add comment
+        </AddComment>
+      )}
     </>
   );
 };
-
+export default React.memo(ModalCard);
 const Subtitle = styled.h2`
   margin: 0;
   position: absolute;
@@ -58,5 +76,3 @@ const AddComment = styled.button`
     color: #fff;
   }
 `;
-
-export default ModalCard;

@@ -32,7 +32,11 @@ const Card = ({ id, label }: CardProps): JSX.Component => {
           alt="delete"
         />
         {openModal && (
-          <Modal allowClose={true} content={<ModalCard />} setParentModalShow={setOpenModal} />
+          <Modal
+            allowClose={true}
+            content={<ModalCard cardId={id} comment={comment} />}
+            setParentModalShow={setOpenModal}
+          />
         )}
       </Li>
       <CommentCount>Comments: {comment.length}</CommentCount>

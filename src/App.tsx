@@ -5,6 +5,7 @@ import Modal from './view/components/modal/Modal';
 import Authorization from './view/components/modal/content/ModalAuthorization';
 import { RootStateOrAny, useSelector } from 'react-redux';
 import { selectLists } from './redux/ducks/list/selectors';
+import _ from 'lodash';
 
 const App = () => {
   const { logged } = useSelector((state: RootStateOrAny) => state.authorization);
@@ -12,11 +13,13 @@ const App = () => {
 
   if (!logged) return <Modal content={<Authorization />} allowClose={false} />;
 
-  const list = lists.map((item) => {
-    return <List key={item.id} title={item.title} listId={item.id} adding={item.adding} />;
-  });
-
-  return <>{list}</>;
+  return (
+    <>
+      {_.map(lists, (item) => {
+        return <List key={item.id} title={item.title} listId={item.id} adding={item.adding} />;
+      })}
+    </>
+  );
 };
 
 export default App;

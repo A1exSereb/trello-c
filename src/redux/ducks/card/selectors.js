@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+import _ from 'lodash';
 
 const selectAllCards = (state) => state.card;
 
@@ -8,6 +9,6 @@ export const selectCardByListId = createSelector(selectAllCards, (allCards) =>
 
 export const getSelectCardById = (id) => {
   return createSelector(selectAllCards, (allCards) =>
-    allCards.filter((card) => card.dataId === id)
+    _.filter(allCards, (card) => card.dataId === id)
   );
 };

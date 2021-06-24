@@ -4,15 +4,41 @@ import { Form, Field } from 'react-final-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { cardActions } from '../../../redux/ducks/card/actions';
 import { listActions } from '../../../redux/ducks/list/actions';
+import { commentActions } from '../../../redux/ducks/comment/actions';
 interface InputFormProps {
   id: number;
+  parent: string;
+  parentSetState?: React.Dispatch<React.SetStateAction<boolean>>;
 }
-const InputForm = ({ id }: InputFormProps) => {
+const InputForm = ({ id, parent, parentSetState }: InputFormProps) => {
   const dispatch = useDispatch();
-  const { name } = useSelector((state) => state.authorization);
-  const onSubmit = (value: Object) => {
-    dispatch(cardActions.addCard(id, value.text, name));
-    dispatch(listActions.setAddCard(id));
+  const { name } = useSelector((state: DefaultRootState) => state.authorization);
+  const onSubmit = (value) => {
+    switch (parent) {
+      case 'modal-card':
+        dispatch(commentActions.addComment(id, name, value.text));
+        parentSetState(false);
+        break;
+      case 'list':
+        dispatch(cardActions.addCard(id, value.text, name));
+        dispatch(listActions.setAddCard(id));
+        break;
+      default:
+        break;
+    }
+  };
+
+  const onClose = () => {
+    switch (parent) {
+      case 'modal-card':
+        parentSetState(false);
+        break;
+      case 'list':
+        dispatch(listActions.setAddCard(id));
+        break;
+      default:
+        break;
+    }
   };
 
   return (
@@ -26,18 +52,12 @@ const InputForm = ({ id }: InputFormProps) => {
           </div>
 
           <OkButton type="submit">Ok</OkButton>
-          <CancelButton onClick={() => dispatch(listActions.setAddCard(id))}>Cancel</CancelButton>
+          <CancelButton onClick={onClose}>Cancel</CancelButton>
         </form>
       )}
     />
   );
 };
-/* const fForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  width: 100%;
-`; */
 
 const Button = styled.button`
   border: 1px solid #000;

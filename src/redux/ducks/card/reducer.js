@@ -1,4 +1,5 @@
 import { cardActionTypes } from './actions';
+import _ from 'lodash';
 
 const initialState = [
   { id: 1, dataId: 1, label: 'todo1', author: 'test', description: 'descr' },
@@ -8,7 +9,7 @@ const initialState = [
 const cardReducer = (state = initialState, action) => {
   switch (action.type) {
     case cardActionTypes.ADD_CARD:
-      return state.concat({
+      return _.concat(state, {
         id: Math.random(),
         dataId: action.payload.id,
         label: action.payload.text,
@@ -16,9 +17,9 @@ const cardReducer = (state = initialState, action) => {
         description: '',
       });
     case cardActionTypes.DELETE_CARD:
-      return state.filter((item) => item.id !== action.payload);
+      return _.filter(state, (item) => item.id !== action.payload);
     case cardActionTypes.EDIT_CARD:
-      return state.map((item) => ({
+      return _.map(state, (item) => ({
         ...item,
         label: action.payload.id === item.id ? action.payload.text : item.label,
       }));
