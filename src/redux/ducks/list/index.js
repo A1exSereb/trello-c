@@ -1,3 +1,3 @@
-import listReducer from './reducer';
+import listSlice from './slice';
 
-export default listReducer;
+export default listSlice;

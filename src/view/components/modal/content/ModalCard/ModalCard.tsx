@@ -13,7 +13,7 @@ interface ModalCard {
   comment: Array<{ id: number; recordId: number; name: string; label: string }>;
   listId: number;
 }
-const ModalCard = ({ cardId, comment, listId }: ModalCard): JSX.Component => {
+const ModalCard = ({ cardId, comment, listId }: ModalCard): JSX.Element => {
   const card = useSelector(getSelectCardByCardId(cardId));
   const { title } = useSelector(getListSelectorById(listId));
   const [addComment, setAddComment] = useState(false);

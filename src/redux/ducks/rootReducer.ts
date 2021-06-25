@@ -1,14 +1,16 @@
 import { combineReducers } from '@reduxjs/toolkit';
-import listReducer from './list';
+import listSlice from './list';
 import authorizationReducer from './authorization';
 import cardReducer from './card';
 import commentReducer from './comment';
 
 const rootReducer = combineReducers({
   authorization: authorizationReducer,
-  list: listReducer,
+  list: listSlice.reducer,
   card: cardReducer,
   comment: commentReducer,
 });
+
+export type RootState = ReturnType<typeof rootReducer>;
 
 export default rootReducer;

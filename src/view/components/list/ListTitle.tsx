@@ -1,16 +1,18 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { listActions } from '../../../redux/ducks/list/actions';
+import { getListSelectorById } from '../../../redux/ducks/list/selectors';
+import { editTitle } from '../../../redux/ducks/list/slice';
+
 interface ListTitleProps {
-  title: string;
   id: number;
 }
-const ListTitle = ({ title, id }: ListTitleProps): JSX.Component => {
-  const dispatch = useDispatch();
 
+const ListTitle = ({ id }: ListTitleProps): JSX.Element => {
+  const [{ title }] = useSelector(getListSelectorById(id));
+  const dispatch = useDispatch();
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(listActions.editTitle(id, e.target.value));
+    dispatch(editTitle({ id, title: e.target.value }));
   };
 
   return <Title className="board__title" value={title} onChange={onChange} />;

@@ -16,7 +16,7 @@ const App = () => {
   return (
     <>
       {_.map(lists, (item) => {
-        return <List key={item.id} title={item.title} listId={item.id} adding={item.adding} />;
+        return <List key={item.id} listId={item.id} adding={item.adding} />;
       })}
     </>
   );

@@ -4,23 +4,22 @@ import styled from 'styled-components';
 import Card from '../card/Card';
 import ListTitle from './ListTitle';
 import InputForm from '../forms/InputForm';
-import { listActions } from '../../../redux/ducks/list/actions';
 import { getSelectCardByListId } from '../../../redux/ducks/card/selectors';
+import { setAddCard } from '../../../redux/ducks/list/slice';
 import _ from 'lodash';
 
 interface ListProps {
   listId: number;
-  title: string;
   adding: boolean;
 }
 
-const List = ({ listId, title, adding }: ListProps): JSX.Component => {
+const List = ({ listId, adding }: ListProps): JSX.Element => {
   const dispatch = useDispatch();
   const card = useSelector(getSelectCardByListId(listId));
 
   return (
     <Container className="list">
-      <ListTitle title={title} id={listId} />
+      <ListTitle id={listId} />
       <Ul>
         {_.map(card, (item) => {
           return <Card key={item.id} label={item.label} id={item.id} />;
@@ -29,7 +28,7 @@ const List = ({ listId, title, adding }: ListProps): JSX.Component => {
       {adding ? (
         <InputForm id={listId} parent={'list'} />
       ) : (
-        <AddItem className="list__additem" onClick={() => dispatch(listActions.setAddCard(listId))}>
+        <AddItem className="list__additem" onClick={() => dispatch(setAddCard(listId))}>
           Add
         </AddItem>
       )}

@@ -10,7 +10,7 @@ export default function Modal({
   allowClose,
   content,
   setParentModalShow,
-}: ItemDescriptionProps): JSX.Element | null {
+}: ItemDescriptionProps): JSX.Element {
   const handleKeyPress = (event: React.KeyboardEvent<HTMLDivElement>) => {
     if (event.code === 'Escape') {
       closeModal();

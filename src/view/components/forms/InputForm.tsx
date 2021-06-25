@@ -3,14 +3,14 @@ import styled from 'styled-components';
 import { Form, Field } from 'react-final-form';
 import { DefaultRootState, useDispatch, useSelector } from 'react-redux';
 import { cardActions } from '../../../redux/ducks/card/actions';
-import { listActions } from '../../../redux/ducks/list/actions';
+import { setAddCard } from '../../../redux/ducks/list/slice';
 import { commentActions } from '../../../redux/ducks/comment/actions';
 interface InputFormProps {
   id: number;
   parent: string;
   parentSetState?: React.Dispatch<React.SetStateAction<boolean>>;
 }
-const InputForm = ({ id, parent, parentSetState }: InputFormProps): JSX.Component => {
+const InputForm = ({ id, parent, parentSetState }: InputFormProps): JSX.Element => {
   const dispatch = useDispatch();
   const { name } = useSelector((state: DefaultRootState) => state.authorization);
   const onSubmit = (value) => {
@@ -21,7 +21,7 @@ const InputForm = ({ id, parent, parentSetState }: InputFormProps): JSX.Componen
         break;
       case 'list':
         dispatch(cardActions.addCard(id, value.text, name));
-        dispatch(listActions.setAddCard(id));
+        dispatch(setAddCard(id));
         break;
       default:
         break;
