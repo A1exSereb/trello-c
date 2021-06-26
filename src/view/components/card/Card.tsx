@@ -1,32 +1,32 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { cardActions } from '../../../redux/ducks/card/actions';
+import { deleteCard, editCard } from '../../../redux/ducks/card/slice';
 import { getSelectCommentsById } from '../../../redux/ducks/comment/selectors';
 import TrashIcon from '../../assets/delete-icon.svg';
 import ModalCard from '../modal/content/ModalCard/ModalCard';
 import Modal from '../modal/Modal';
 
 interface CardProps {
-  id: number;
+  cardId: number;
   label: string;
+  listId: number;
 }
-const Card = ({ id, label }: CardProps): JSX.Component => {
+const Card = ({ cardId, label, listId }: CardProps): JSX.Element => {
   const [openModal, setOpenModal] = useState(false);
   const dispatch = useDispatch();
-  const comment = useSelector(getSelectCommentsById(id));
+  const comment = useSelector(getSelectCommentsById(cardId), shallowEqual);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const text = e.target.value;
-    dispatch(cardActions.editCard(id, text));
+    dispatch(editCard({ id: cardId, text: e.target.value }));
   };
 
   return (
     <>
-      <Li key={id} onDoubleClick={() => setOpenModal(true)}>
+      <Li key={cardId} onDoubleClick={() => setOpenModal(true)}>
         <Label value={label} onChange={onChange} />
         <Image
-          onClick={() => dispatch(cardActions.deleteCard(id))}
+          onClick={() => dispatch(deleteCard(cardId))}
           className="item__button-delete"
           src={TrashIcon}
           alt="delete"
@@ -34,7 +34,7 @@ const Card = ({ id, label }: CardProps): JSX.Component => {
         {openModal && (
           <Modal
             allowClose={true}
-            content={<ModalCard cardId={id} comment={comment} listId={id} />}
+            content={<ModalCard cardId={cardId} comment={comment} listId={listId} />}
             setParentModalShow={setOpenModal}
           />
         )}

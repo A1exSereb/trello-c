@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-interface InitialState {
+export interface InitialState {
   id: number;
   title: string;
   adding: boolean;

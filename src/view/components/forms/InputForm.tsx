@@ -1,10 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Form, Field } from 'react-final-form';
-import { DefaultRootState, useDispatch, useSelector } from 'react-redux';
-import { cardActions } from '../../../redux/ducks/card/actions';
+import { useDispatch, useSelector } from 'react-redux';
 import { setAddCard } from '../../../redux/ducks/list/slice';
-import { commentActions } from '../../../redux/ducks/comment/actions';
+import { addComment } from '../../../redux/ducks/comment/slice';
+import { addCard } from '../../../redux/ducks/card/slice';
+import { RootState } from '../../../redux/ducks/rootReducer';
 interface InputFormProps {
   id: number;
   parent: string;
@@ -12,15 +13,15 @@ interface InputFormProps {
 }
 const InputForm = ({ id, parent, parentSetState }: InputFormProps): JSX.Element => {
   const dispatch = useDispatch();
-  const { name } = useSelector((state: DefaultRootState) => state.authorization);
+  const { name } = useSelector((state: RootState) => state.authorization);
   const onSubmit = (value) => {
     switch (parent) {
       case 'modal-card':
-        dispatch(commentActions.addComment(id, name, value.text));
+        dispatch(addComment({ recordId: id, name: name, label: value.text }));
         parentSetState(false);
         break;
       case 'list':
-        dispatch(cardActions.addCard(id, value.text, name));
+        dispatch(addCard({ id: id, text: value.text, author: name }));
         dispatch(setAddCard(id));
         break;
       default:
@@ -34,7 +35,7 @@ const InputForm = ({ id, parent, parentSetState }: InputFormProps): JSX.Element 
         parentSetState(false);
         break;
       case 'list':
-        dispatch(listActions.setAddCard(id));
+        dispatch(setAddCard(id));
         break;
       default:
         break;

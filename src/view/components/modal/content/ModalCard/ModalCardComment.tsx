@@ -1,7 +1,7 @@
 import React from 'react';
 import { DefaultRootState, useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { commentActions } from '../../../../../redux/ducks/comment/actions';
+import { deleteComment, editComment } from '../../../../../redux/ducks/comment/slice';
 import TrashIcon from '../../../../assets/delete-icon.svg';
 interface CommentProps {
   id: number;
@@ -13,7 +13,7 @@ const ModalCardComment = ({ id, label, author }: CommentProps): JSX.Element => {
   const { name: userName } = useSelector((state: DefaultRootState) => state.authorization);
   const dispatch = useDispatch();
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(commentActions.editComment(id, e.target.value));
+    dispatch(editComment({ id: id, label: e.target.value }));
   };
   const isAuthor = () => {
     if (author === userName)
@@ -24,7 +24,7 @@ const ModalCardComment = ({ id, label, author }: CommentProps): JSX.Element => {
             className="item__button-delete"
             src={TrashIcon}
             alt="delete"
-            onClick={() => dispatch(commentActions.deleteComment(id))}
+            onClick={() => dispatch(deleteComment(id))}
           />
         </>
       );

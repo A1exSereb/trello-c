@@ -1,3 +1,3 @@
-import commentReducer from './reducer';
+import commentSlice from './slice';
 
-export default commentReducer;
+export default commentSlice;

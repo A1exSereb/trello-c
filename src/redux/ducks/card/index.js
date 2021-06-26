@@ -1,3 +1,3 @@
-import cardReducer from './reducer';
+import cardSlice from './slice';
 
-export default cardReducer;
+export default cardSlice;

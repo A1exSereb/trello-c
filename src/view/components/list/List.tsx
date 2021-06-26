@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Card from '../card/Card';
 import ListTitle from './ListTitle';
@@ -15,14 +15,14 @@ interface ListProps {
 
 const List = ({ listId, adding }: ListProps): JSX.Element => {
   const dispatch = useDispatch();
-  const card = useSelector(getSelectCardByListId(listId));
+  const card = useSelector(getSelectCardByListId(listId), shallowEqual);
 
   return (
     <Container className="list">
       <ListTitle id={listId} />
       <Ul>
         {_.map(card, (item) => {
-          return <Card key={item.id} label={item.label} id={item.id} />;
+          return <Card key={item.id} label={item.label} cardId={item.id} listId={listId} />;
         })}
       </Ul>
       {adding ? (

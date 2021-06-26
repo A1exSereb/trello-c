@@ -4,25 +4,23 @@ import _ from 'lodash';
 import ModalCardComment from './ModalCardComment';
 import InputForm from '../../../forms/InputForm';
 import { getSelectCardByCardId } from '../../../../../redux/ducks/card/selectors';
-import { useDispatch, useSelector } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import ModalCardDesciption from './ModalCardDesciption';
-import { cardActions } from '../../../../../redux/ducks/card/actions';
 import { getListSelectorById } from '../../../../../redux/ducks/list/selectors';
+import { editCard } from '../../../../../redux/ducks/card/slice';
 interface ModalCard {
   cardId: number;
   comment: Array<{ id: number; recordId: number; name: string; label: string }>;
   listId: number;
 }
 const ModalCard = ({ cardId, comment, listId }: ModalCard): JSX.Element => {
-  const card = useSelector(getSelectCardByCardId(cardId));
-  const { title } = useSelector(getListSelectorById(listId));
+  const [{ label, description, author }] = useSelector(getSelectCardByCardId(cardId), shallowEqual);
+  const [{ title }] = useSelector(getListSelectorById(listId), shallowEqual);
   const [addComment, setAddComment] = useState(false);
   const dispatch = useDispatch();
-  const [currentCard] = card;
-  const { label, description, author } = currentCard;
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(cardActions.editCard(cardId, e.target.value));
+    dispatch(editCard({ id: cardId, text: e.target.value }));
   };
   return (
     <>

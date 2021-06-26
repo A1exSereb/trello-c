@@ -1,3 +1,3 @@
-import listReducer from './reducer';
+import authorizationSlice from './slice';
 
-export default listReducer;
+export default authorizationSlice;

@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
-import { cardActions } from '../../../../../redux/ducks/card/actions';
+import { deleteCardDescription, editCardDescription } from '../../../../../redux/ducks/card/slice';
 interface DescriptionProps {
   id: number;
   description: string;
 }
-const ModalCardDesciption = ({ id, description }: DescriptionProps): JSX.Component => {
+const ModalCardDesciption = ({ id, description }: DescriptionProps): JSX.Element => {
   const [addingDescription, setAddingDescription] = useState(false);
   const dispatch = useDispatch();
 
@@ -24,11 +24,11 @@ const ModalCardDesciption = ({ id, description }: DescriptionProps): JSX.Compone
 
   const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     console.log(e.target.value);
-    dispatch(cardActions.editDescription(id, e.target.value));
+    dispatch(editCardDescription({ id: id, text: e.target.value }));
   };
 
   const deleteDescription = () => {
-    dispatch(cardActions.deleteDescription(id));
+    dispatch(deleteCardDescription(id));
     setAddingDescription(false);
   };
 

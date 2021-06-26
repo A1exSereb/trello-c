@@ -1,14 +1,14 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Form, Field } from 'react-final-form';
-import { authorizationActions } from '../../../../redux/ducks/authorization/actions';
+import { logIn } from '../../../../redux/ducks/authorization/slice';
 
 export default function Authorization(): JSX.Element {
   const dispatch = useDispatch();
 
   const onSubmit = (value) => {
     if (value !== '') {
-      dispatch(authorizationActions.logIn(value.authorization));
+      dispatch(logIn(value.authorization));
     }
   };
 
