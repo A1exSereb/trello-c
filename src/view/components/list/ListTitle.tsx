@@ -1,7 +1,8 @@
 import React from 'react';
+import { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { getListSelectorById } from '../../../redux/ducks/list/selectors';
+import { makeGetListByIdSelector } from '../../../redux/ducks/list/selectors';
 import { editTitle } from '../../../redux/ducks/list/slice';
 
 interface ListTitleProps {
@@ -9,8 +10,8 @@ interface ListTitleProps {
 }
 
 const ListTitle = ({ listId }: ListTitleProps): JSX.Element => {
-  console.log(useSelector((state) => getListSelectorById(state, listId)));
-  const [{ title }] = useSelector((state) => getListSelectorById(state, listId));
+  const getListByIdSelector = useMemo(makeGetListByIdSelector, []);
+  const [{ title }] = useSelector((state) => getListByIdSelector(state, listId));
   const dispatch = useDispatch();
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(editTitle({ id: listId, title: e.target.value }));

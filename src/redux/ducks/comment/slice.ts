@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import _ from 'lodash';
 
-interface InitialState {
+interface CommentState {
   id: number;
   recordId: number;
   author: string;
@@ -9,19 +9,19 @@ interface InitialState {
 }
 const initialState = [
   { id: 1, recordId: 1, author: 'Oleg', label: 'comment1' },
-] as Array<InitialState>;
+] as Array<CommentState>;
 
 const commentSlice = createSlice({
   name: 'comment',
   initialState,
   reducers: {
-    deleteComment: (state, action: PayloadAction<number>): Array<InitialState> => {
+    deleteComment: (state, action: PayloadAction<number>): Array<CommentState> => {
       return _.filter(state, (item) => item.id !== action.payload);
     },
     addComment: (
       state,
       action: PayloadAction<{ recordId: number; label: string; name: string }>
-    ): Array<InitialState> => {
+    ): Array<CommentState> => {
       return _.concat(state, {
         id: Math.random(),
         recordId: action.payload.recordId,
@@ -32,7 +32,7 @@ const commentSlice = createSlice({
     editComment: (
       state,
       action: PayloadAction<{ id: number; label: string }>
-    ): Array<InitialState> => {
+    ): Array<CommentState> => {
       return _.map(state, (item) => ({
         ...item,
         label: item.id === action.payload.id ? action.payload.label : item.label,

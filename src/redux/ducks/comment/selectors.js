@@ -1,9 +1,15 @@
 import { createSelector } from 'reselect';
-import _ from 'lodash';
-const selectAllComments = (state) => state.comment;
 
-export const getSelectCommentsById = (id) => {
-  return createSelector(selectAllComments, (allComments) =>
-    _.filter(allComments, (comment) => comment.recordId === id)
+export const makeGetCommentByCardId = () =>
+  createSelector(
+    (state) => state.comment,
+    (_, cardId) => cardId,
+    (commentsById, cardId) => commentsById.filter((comment) => comment.recordId === cardId)
   );
-};
+
+export const makeGetCommentCountByCardId = () =>
+  createSelector(
+    (state) => state.comment,
+    (_, cardId) => cardId,
+    (commentsById, cardId) => commentsById.filter((comment) => comment.recordId === cardId).length
+  );

@@ -3,22 +3,28 @@ import styled from 'styled-components';
 import _ from 'lodash';
 import ModalCardComment from './ModalCardComment';
 import InputForm from '../../../forms/InputForm';
-import { getSelectCardByCardId } from '../../../../../redux/ducks/card/selectors';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { makeGetCardByCardIdSelector } from '../../../../../redux/ducks/card/selectors';
+import { useDispatch, useSelector } from 'react-redux';
 import ModalCardDesciption from './ModalCardDesciption';
-import { getListSelectorById } from '../../../../../redux/ducks/list/selectors';
 import { editCard } from '../../../../../redux/ducks/card/slice';
+import { useMemo } from 'react';
+import { makeGetListByIdSelector } from '../../../../../redux/ducks/list/selectors';
+import { makeGetCommentByCardId } from '../../../../../redux/ducks/comment/selectors';
 interface ModalCard {
   cardId: number;
-  comment: Array<{ id: number; recordId: number; name: string; label: string }>;
   listId: number;
 }
-const ModalCard = ({ cardId, comment, listId }: ModalCard): JSX.Element => {
-  const [{ label, description, author }] = useSelector(getSelectCardByCardId(cardId), shallowEqual);
-  const [{ title }] = useSelector(getListSelectorById(listId), shallowEqual);
+const ModalCard = ({ cardId, listId }: ModalCard): JSX.Element => {
+  const getListByListIdSelector = useMemo(makeGetListByIdSelector, []);
+  const getCardByCardIdSelector = useMemo(makeGetCardByCardIdSelector, []);
+  const [{ label, description, author }] = useSelector((state) =>
+    getCardByCardIdSelector(state, cardId)
+  );
+  const [{ title }] = useSelector((state) => getListByListIdSelector(state, listId));
+  const getCommentByCardId = useMemo(makeGetCommentByCardId, []);
+  const comment = useSelector((state) => getCommentByCardId(state, cardId));
   const [addComment, setAddComment] = useState(false);
   const dispatch = useDispatch();
-
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(editCard({ id: cardId, text: e.target.value }));
   };

@@ -1,21 +1,25 @@
 import React, { useState } from 'react';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { makeGetCardByCardIdSelector } from '../../../redux/ducks/card/selectors';
 import { deleteCard, editCard } from '../../../redux/ducks/card/slice';
-import { getSelectCommentsById } from '../../../redux/ducks/comment/selectors';
+import { makeGetCommentCountByCardId } from '../../../redux/ducks/comment/selectors';
 import TrashIcon from '../../assets/delete-icon.svg';
 import ModalCard from '../modal/content/ModalCard/ModalCard';
 import Modal from '../modal/Modal';
 
 interface CardProps {
   cardId: number;
-  label: string;
   listId: number;
 }
-const Card = ({ cardId, label, listId }: CardProps): JSX.Element => {
+const Card = ({ cardId, listId }: CardProps): JSX.Element => {
   const [openModal, setOpenModal] = useState(false);
+  const getCardByListIdSelector = useMemo(makeGetCardByCardIdSelector, []);
+  const [{ label }] = useSelector((state) => getCardByListIdSelector(state, cardId));
   const dispatch = useDispatch();
-  const comment = useSelector(getSelectCommentsById(cardId), shallowEqual);
+  const getCommentByCardId = useMemo(makeGetCommentCountByCardId, []);
+  const comment = useSelector((state) => getCommentByCardId(state, cardId));
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(editCard({ id: cardId, text: e.target.value }));
@@ -34,12 +38,12 @@ const Card = ({ cardId, label, listId }: CardProps): JSX.Element => {
         {openModal && (
           <Modal
             allowClose={true}
-            content={<ModalCard cardId={cardId} comment={comment} listId={listId} />}
+            content={<ModalCard cardId={cardId} listId={listId} />}
             setParentModalShow={setOpenModal}
           />
         )}
       </Li>
-      <CommentCount>Comments: {comment.length}</CommentCount>
+      <CommentCount>Comments: {comment}</CommentCount>
     </>
   );
 };

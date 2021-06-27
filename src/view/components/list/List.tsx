@@ -4,9 +4,10 @@ import styled from 'styled-components';
 import Card from '../card/Card';
 import ListTitle from './ListTitle';
 import InputForm from '../forms/InputForm';
-import { getSelectCardByListId } from '../../../redux/ducks/card/selectors';
 import { setAddCard } from '../../../redux/ducks/list/slice';
 import _ from 'lodash';
+import { useMemo } from 'react';
+import { makeGetCardByListIdSelector } from '../../../redux/ducks/card/selectors';
 
 interface ListProps {
   listId: number;
@@ -14,8 +15,9 @@ interface ListProps {
 }
 
 const List = ({ listId, adding }: ListProps): JSX.Element => {
+  const getCardByListIdSelector = useMemo(makeGetCardByListIdSelector, []);
   const dispatch = useDispatch();
-  const card = useSelector(getSelectCardByListId(listId));
+  const card = useSelector((state) => getCardByListIdSelector(state, listId));
 
   return (
     <Container className="list">
