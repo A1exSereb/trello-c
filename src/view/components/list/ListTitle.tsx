@@ -5,14 +5,15 @@ import { getListSelectorById } from '../../../redux/ducks/list/selectors';
 import { editTitle } from '../../../redux/ducks/list/slice';
 
 interface ListTitleProps {
-  id: number;
+  listId: number;
 }
 
-const ListTitle = ({ id }: ListTitleProps): JSX.Element => {
-  const [{ title }] = useSelector(getListSelectorById(id));
+const ListTitle = ({ listId }: ListTitleProps): JSX.Element => {
+  console.log(useSelector((state) => getListSelectorById(state, listId)));
+  const [{ title }] = useSelector((state) => getListSelectorById(state, listId));
   const dispatch = useDispatch();
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(editTitle({ id, title: e.target.value }));
+    dispatch(editTitle({ id: listId, title: e.target.value }));
   };
 
   return <Title className="board__title" value={title} onChange={onChange} />;
