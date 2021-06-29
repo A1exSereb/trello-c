@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { makeGetCardByCardIdSelector } from '../../../redux/ducks/card/selectors';
 import { deleteCard, editCard } from '../../../redux/ducks/card/slice';
 import { makeGetCommentCountByCardId } from '../../../redux/ducks/comment/selectors';
+import { useAppDispatch } from '../../../redux/store';
 import TrashIcon from '../../assets/delete-icon.svg';
 import ModalCard from '../modal/content/ModalCard/ModalCard';
 import Modal from '../modal/Modal';
@@ -17,7 +18,7 @@ const Card = ({ cardId, listId }: CardProps): JSX.Element => {
   const [openModal, setOpenModal] = useState(false);
   const getCardByListIdSelector = useMemo(makeGetCardByCardIdSelector, []);
   const [{ label }] = useSelector((state) => getCardByListIdSelector(state, cardId));
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const getCommentByCardId = useMemo(makeGetCommentCountByCardId, []);
   const comment = useSelector((state) => getCommentByCardId(state, cardId));
 

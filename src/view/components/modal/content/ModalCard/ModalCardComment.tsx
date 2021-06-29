@@ -1,7 +1,9 @@
 import React from 'react';
-import { DefaultRootState, useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { deleteComment, editComment } from '../../../../../redux/ducks/comment/slice';
+import { RootState } from '../../../../../redux/ducks/rootReducer';
+import { useAppDispatch } from '../../../../../redux/store';
 import TrashIcon from '../../../../assets/delete-icon.svg';
 interface CommentProps {
   id: number;
@@ -10,8 +12,8 @@ interface CommentProps {
 }
 
 const ModalCardComment = ({ id, label, author }: CommentProps): JSX.Element => {
-  const { name: userName } = useSelector((state: DefaultRootState) => state.authorization);
-  const dispatch = useDispatch();
+  const { name: userName } = useSelector((state: RootState) => state.authorization);
+  const dispatch = useAppDispatch();
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(editComment({ id: id, label: e.target.value }));
   };

@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useDispatch } from 'react-redux';
 import { deleteCardDescription, editCardDescription } from '../../../../../redux/ducks/card/slice';
+import { useAppDispatch } from '../../../../../redux/store';
 interface DescriptionProps {
   id: number;
   description: string;
 }
 const ModalCardDesciption = ({ id, description }: DescriptionProps): JSX.Element => {
   const [addingDescription, setAddingDescription] = useState(false);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   if (description === '' && addingDescription === false)
     return (

@@ -4,12 +4,13 @@ import _ from 'lodash';
 import ModalCardComment from './ModalCardComment';
 import InputForm from '../../../forms/InputForm';
 import { makeGetCardByCardIdSelector } from '../../../../../redux/ducks/card/selectors';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import ModalCardDesciption from './ModalCardDesciption';
 import { editCard } from '../../../../../redux/ducks/card/slice';
 import { useMemo } from 'react';
 import { makeGetListByIdSelector } from '../../../../../redux/ducks/list/selectors';
 import { makeGetCommentByCardId } from '../../../../../redux/ducks/comment/selectors';
+import { useAppDispatch } from '../../../../../redux/store';
 interface ModalCard {
   cardId: number;
   listId: number;
@@ -24,7 +25,7 @@ const ModalCard = ({ cardId, listId }: ModalCard): JSX.Element => {
   const getCommentByCardId = useMemo(makeGetCommentByCardId, []);
   const comment = useSelector((state) => getCommentByCardId(state, cardId));
   const [addComment, setAddComment] = useState(false);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(editCard({ id: cardId, text: e.target.value }));
   };
