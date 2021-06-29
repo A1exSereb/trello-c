@@ -1,18 +1,19 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Form, Field } from 'react-final-form';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { setAddCard } from '../../../redux/ducks/list/slice';
 import { addComment } from '../../../redux/ducks/comment/slice';
 import { addCard } from '../../../redux/ducks/card/slice';
 import { RootState } from '../../../redux/ducks/rootReducer';
+import { useAppDispatch } from '../../../redux/store';
 interface InputFormProps {
   id: number;
   parent: string;
   parentSetState?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const InputForm = ({ id, parent, parentSetState }: InputFormProps): JSX.Element => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { name } = useSelector((state: RootState) => state.authorization);
   const onSubmit = (value) => {
     switch (parent) {

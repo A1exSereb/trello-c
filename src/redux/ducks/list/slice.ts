@@ -17,7 +17,7 @@ const listSlice = createSlice({
   name: 'list',
   initialState,
   reducers: {
-    editTitle: (state, action: PayloadAction<{id: number, title: string}>): Array<ListState> => {
+    editTitle: (state, action: PayloadAction<{ id: number; title: string }>): Array<ListState> => {
       return _.map(state, (item) => ({
         ...item,
         title: action.payload.id === item.id ? action.payload.title : item.title,

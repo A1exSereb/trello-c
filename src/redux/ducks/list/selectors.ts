@@ -9,6 +9,6 @@ export const selectLists = createSelector(
 export const makeGetListByIdSelector = () =>
   createSelector(
     (state: RootState) => state.list,
-    (_, listId: number) => listId,
+    (_, listId: RootState) => listId,
     (listById, listId) => listById.filter((item) => item.id === listId)
   );

@@ -1,9 +1,10 @@
 import React from 'react';
 import { useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { makeGetListByIdSelector } from '../../../redux/ducks/list/selectors';
 import { editTitle } from '../../../redux/ducks/list/slice';
+import { useAppDispatch } from '../../../redux/store';
 
 interface ListTitleProps {
   listId: number;
@@ -12,7 +13,7 @@ interface ListTitleProps {
 const ListTitle = ({ listId }: ListTitleProps): JSX.Element => {
   const getListByIdSelector = useMemo(makeGetListByIdSelector, []);
   const [{ title }] = useSelector((state) => getListByIdSelector(state, listId));
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(editTitle({ id: listId, title: e.target.value }));
   };

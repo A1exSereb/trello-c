@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Card from '../card/Card';
 import ListTitle from './ListTitle';
@@ -8,6 +8,7 @@ import { setAddCard } from '../../../redux/ducks/list/slice';
 import _ from 'lodash';
 import { useMemo } from 'react';
 import { makeGetCardByListIdSelector } from '../../../redux/ducks/card/selectors';
+import { useAppDispatch } from '../../../redux/store';
 
 interface ListProps {
   listId: number;
@@ -16,7 +17,7 @@ interface ListProps {
 
 const List = ({ listId, adding }: ListProps): JSX.Element => {
   const getCardByListIdSelector = useMemo(makeGetCardByListIdSelector, []);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const card = useSelector((state) => getCardByListIdSelector(state, listId));
 
   return (
