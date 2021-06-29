@@ -5,10 +5,7 @@ export interface ListState {
   title: string;
   adding: boolean;
 }
-interface EditTitle {
-  id: number;
-  title: string;
-}
+
 const initialState = [
   { id: 1, title: 'TODO', adding: false },
   { id: 2, title: 'In Progress', adding: false },
@@ -20,7 +17,7 @@ const listSlice = createSlice({
   name: 'list',
   initialState,
   reducers: {
-    editTitle: (state, action: PayloadAction<EditTitle>): Array<ListState> => {
+    editTitle: (state, action: PayloadAction<{id: number, title: string}>): Array<ListState> => {
       return _.map(state, (item) => ({
         ...item,
         title: action.payload.id === item.id ? action.payload.title : item.title,

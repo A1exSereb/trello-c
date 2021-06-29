@@ -1,13 +1,14 @@
 import { createSelector } from 'reselect';
+import { RootState } from '../rootReducer';
 
 export const selectLists = createSelector(
-  (state) => state.list,
+  (state: RootState) => state.list,
   (allLists) => allLists
 );
 
 export const makeGetListByIdSelector = () =>
   createSelector(
-    (state) => state.list,
-    (_, listId) => listId,
+    (state: RootState) => state.list,
+    (_, listId: number) => listId,
     (listById, listId) => listById.filter((item) => item.id === listId)
   );

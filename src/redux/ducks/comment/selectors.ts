@@ -1,15 +1,16 @@
 import { createSelector } from 'reselect';
+import { RootState } from '../rootReducer';
 
 export const makeGetCommentByCardId = () =>
   createSelector(
-    (state) => state.comment,
-    (_, cardId) => cardId,
+    (state: RootState) => state.comment,
+    (_, cardId: number) => cardId,
     (commentsById, cardId) => commentsById.filter((comment) => comment.recordId === cardId)
   );
 
 export const makeGetCommentCountByCardId = () =>
   createSelector(
-    (state) => state.comment,
-    (_, cardId) => cardId,
+    (state: RootState) => state.comment,
+    (_, cardId: number) => cardId,
     (commentsById, cardId) => commentsById.filter((comment) => comment.recordId === cardId).length
   );
