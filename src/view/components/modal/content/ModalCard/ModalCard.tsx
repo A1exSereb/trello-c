@@ -12,6 +12,7 @@ import { makeGetCommentByCardId } from 'redux/ducks/comment/selectors';
 import { useAppDispatch } from 'redux/store';
 import InputForm from 'view/components/forms/InputForm';
 import { RootState } from 'redux/ducks/rootReducer';
+import { addComment } from 'redux/ducks/comment/slice';
 interface ModalCard {
   cardId: number;
   listId: number;
@@ -25,7 +26,7 @@ const ModalCard = ({ cardId, listId }: ModalCard): JSX.Element => {
   const [{ title }] = useSelector((state: RootState) => getListByListIdSelector(state, listId));
   const getCommentByCardId = useMemo(makeGetCommentByCardId, []);
   const comment = useSelector((state: RootState) => getCommentByCardId(state, cardId));
-  const [addComment, setAddComment] = useState(false);
+  const [addingComment, setAddingComment] = useState(false);
   const dispatch = useAppDispatch();
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(editCard({ id: cardId, text: e.target.value }));
@@ -50,10 +51,16 @@ const ModalCard = ({ cardId, listId }: ModalCard): JSX.Element => {
           })}
         </Ul>
       </Scroll>
-      {addComment ? (
-        <InputForm id={cardId} parent={'modal-card'} parentSetState={setAddComment} />
+      {addingComment ? (
+        <InputForm
+          parent={'modal-card'}
+          onCloseForm={() => setAddingComment(false)}
+          onSubmitForm={(value, name) =>
+            dispatch(addComment({ recordId: cardId, name: name, label: value }))
+          }
+        />
       ) : (
-        <AddComment className="modalcard__button-add" onClick={() => setAddComment(true)}>
+        <AddComment className="modalcard__button-add" onClick={() => setAddingComment(true)}>
           Add comment
         </AddComment>
       )}

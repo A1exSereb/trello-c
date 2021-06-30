@@ -10,6 +10,7 @@ import { useMemo } from 'react';
 import { makeGetCardByListIdSelector } from 'redux/ducks/card/selectors';
 import { useAppDispatch } from 'redux/store';
 import { RootState } from 'redux/ducks/rootReducer';
+import { addCard } from 'redux/ducks/card/slice';
 
 interface ListProps {
   listId: number;
@@ -30,7 +31,13 @@ const List = ({ listId, adding }: ListProps): JSX.Element => {
         })}
       </Ul>
       {adding ? (
-        <InputForm id={listId} parent={'list'} />
+        <InputForm
+          parent={'list'}
+          onCloseForm={() => dispatch(setAddCard(listId))}
+          onSubmitForm={(value, name) =>
+            dispatch(addCard({ id: listId, text: value, author: name }))
+          }
+        />
       ) : (
         <AddItem className="list__additem" onClick={() => dispatch(setAddCard(listId))}>
           Add
