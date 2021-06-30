@@ -23,7 +23,6 @@ const ModalCardDesciption = ({ id, description }: DescriptionProps): JSX.Element
     );
 
   const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    console.log(e.target.value);
     dispatch(editCardDescription({ id: id, text: e.target.value }));
   };
 
