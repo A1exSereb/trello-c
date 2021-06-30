@@ -18,5 +18,5 @@ const authorizationSlice = createSlice({
     },
   },
 });
-export default authorizationSlice;
+export default authorizationSlice.reducer;
 export const { logIn } = authorizationSlice.actions;

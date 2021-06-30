@@ -32,5 +32,5 @@ const listSlice = createSlice({
   },
 });
 
-export default listSlice;
+export default listSlice.reducer;
 export const { editTitle, setAddCard } = listSlice.actions;

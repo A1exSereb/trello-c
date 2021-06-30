@@ -4,11 +4,19 @@ import authorizationSlice from './authorization';
 import cardSlice from './card';
 import commentSlice from './comment';
 
+const Reducers = {
+  list: listSlice,
+  authorization: authorizationSlice,
+  card: cardSlice,
+  comment: commentSlice,
+};
+const { list, authorization, card, comment } = Reducers;
+
 const rootReducer = combineReducers({
-  authorization: authorizationSlice.reducer,
-  list: listSlice.reducer,
-  card: cardSlice.reducer,
-  comment: commentSlice.reducer,
+  authorization,
+  list,
+  card,
+  comment,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
