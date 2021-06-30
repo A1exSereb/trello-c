@@ -7,8 +7,10 @@ export default function Authorization(): JSX.Element {
   const dispatch = useAppDispatch();
 
   const onSubmit = (value) => {
-    if (value !== '') {
+    if (value.authorization !== undefined) {
       dispatch(logIn(value.authorization));
+    } else {
+      console.log('write name');
     }
   };
 
