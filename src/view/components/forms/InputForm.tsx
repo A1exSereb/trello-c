@@ -5,8 +5,8 @@ import { useSelector } from 'react-redux';
 import { setAddCard } from '../../../redux/ducks/list/slice';
 import { addComment } from '../../../redux/ducks/comment/slice';
 import { addCard } from '../../../redux/ducks/card/slice';
-import { RootState } from '../../../redux/ducks/rootReducer';
 import { useAppDispatch } from '../../../redux/store';
+import { authorizationSelector } from '../../../redux/ducks/authorization/selectors';
 interface InputFormProps {
   id: number;
   parent: string;
@@ -14,7 +14,7 @@ interface InputFormProps {
 }
 const InputForm = ({ id, parent, parentSetState }: InputFormProps): JSX.Element => {
   const dispatch = useAppDispatch();
-  const { name } = useSelector((state: RootState) => state.authorization);
+  const { name } = useSelector(authorizationSelector);
   const onSubmit = (value) => {
     switch (parent) {
       case 'modal-card':
