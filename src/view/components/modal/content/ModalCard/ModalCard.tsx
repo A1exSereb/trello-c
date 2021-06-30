@@ -2,15 +2,16 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import _ from 'lodash';
 import ModalCardComment from './ModalCardComment';
-import InputForm from '../../../forms/InputForm';
-import { makeGetCardByCardIdSelector } from '../../../../../redux/ducks/card/selectors';
+import { makeGetCardByCardIdSelector } from 'redux/ducks/card/selectors';
 import { useSelector } from 'react-redux';
 import ModalCardDesciption from './ModalCardDesciption';
-import { editCard } from '../../../../../redux/ducks/card/slice';
+import { editCard } from 'redux/ducks/card/slice';
 import { useMemo } from 'react';
-import { makeGetListByIdSelector } from '../../../../../redux/ducks/list/selectors';
-import { makeGetCommentByCardId } from '../../../../../redux/ducks/comment/selectors';
-import { useAppDispatch } from '../../../../../redux/store';
+import { makeGetListByIdSelector } from 'redux/ducks/list/selectors';
+import { makeGetCommentByCardId } from 'redux/ducks/comment/selectors';
+import { useAppDispatch } from 'redux/store';
+import InputForm from 'view/components/forms/InputForm';
+import { RootState } from 'redux/ducks/rootReducer';
 interface ModalCard {
   cardId: number;
   listId: number;
@@ -18,12 +19,12 @@ interface ModalCard {
 const ModalCard = ({ cardId, listId }: ModalCard): JSX.Element => {
   const getListByListIdSelector = useMemo(makeGetListByIdSelector, []);
   const getCardByCardIdSelector = useMemo(makeGetCardByCardIdSelector, []);
-  const [{ label, description, author }] = useSelector((state) =>
+  const [{ label, description, author }] = useSelector((state: RootState) =>
     getCardByCardIdSelector(state, cardId)
   );
-  const [{ title }] = useSelector((state) => getListByListIdSelector(state, listId));
+  const [{ title }] = useSelector((state: RootState) => getListByListIdSelector(state, listId));
   const getCommentByCardId = useMemo(makeGetCommentByCardId, []);
-  const comment = useSelector((state) => getCommentByCardId(state, cardId));
+  const comment = useSelector((state: RootState) => getCommentByCardId(state, cardId));
   const [addComment, setAddComment] = useState(false);
   const dispatch = useAppDispatch();
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {

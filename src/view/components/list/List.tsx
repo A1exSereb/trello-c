@@ -4,11 +4,12 @@ import styled from 'styled-components';
 import Card from '../card/Card';
 import ListTitle from './ListTitle';
 import InputForm from '../forms/InputForm';
-import { setAddCard } from '../../../redux/ducks/list/slice';
+import { setAddCard } from 'redux/ducks/list/slice';
 import _ from 'lodash';
 import { useMemo } from 'react';
-import { makeGetCardByListIdSelector } from '../../../redux/ducks/card/selectors';
-import { useAppDispatch } from '../../../redux/store';
+import { makeGetCardByListIdSelector } from 'redux/ducks/card/selectors';
+import { useAppDispatch } from 'redux/store';
+import { RootState } from 'redux/ducks/rootReducer';
 
 interface ListProps {
   listId: number;
@@ -18,14 +19,14 @@ interface ListProps {
 const List = ({ listId, adding }: ListProps): JSX.Element => {
   const getCardByListIdSelector = useMemo(makeGetCardByListIdSelector, []);
   const dispatch = useAppDispatch();
-  const card = useSelector((state) => getCardByListIdSelector(state, listId));
+  const card = useSelector((state: RootState) => getCardByListIdSelector(state, listId));
 
   return (
     <Container className="list">
       <ListTitle listId={listId} />
       <Ul>
         {_.map(card, (item) => {
-          return <Card key={item.id} label={item.label} cardId={item.id} listId={listId} />;
+          return <Card key={item.id} cardId={item.id} listId={listId} />;
         })}
       </Ul>
       {adding ? (

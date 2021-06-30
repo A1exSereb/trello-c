@@ -2,11 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 import { Form, Field } from 'react-final-form';
 import { useSelector } from 'react-redux';
-import { setAddCard } from '../../../redux/ducks/list/slice';
-import { addComment } from '../../../redux/ducks/comment/slice';
-import { addCard } from '../../../redux/ducks/card/slice';
-import { useAppDispatch } from '../../../redux/store';
-import { authorizationSelector } from '../../../redux/ducks/authorization/selectors';
+import { setAddCard } from 'redux/ducks/list/slice';
+import { addComment } from 'redux/ducks/comment/slice';
+import { addCard } from 'redux/ducks/card/slice';
+import { useAppDispatch } from 'redux/store';
+import { authorizationSelector } from 'redux/ducks/authorization/selectors';
 interface InputFormProps {
   id: number;
   parent: string;
@@ -19,7 +19,7 @@ const InputForm = ({ id, parent, parentSetState }: InputFormProps): JSX.Element 
     switch (parent) {
       case 'modal-card':
         dispatch(addComment({ recordId: id, name: name, label: value.text }));
-        parentSetState(false);
+        parentSetState && parentSetState(false);
         break;
       case 'list':
         dispatch(addCard({ id: id, text: value.text, author: name }));
@@ -33,7 +33,7 @@ const InputForm = ({ id, parent, parentSetState }: InputFormProps): JSX.Element 
   const onClose = () => {
     switch (parent) {
       case 'modal-card':
-        parentSetState(false);
+        parentSetState && parentSetState(false);
         break;
       case 'list':
         dispatch(setAddCard(id));

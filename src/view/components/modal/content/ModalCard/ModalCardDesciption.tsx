@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { deleteCardDescription, editCardDescription } from '../../../../../redux/ducks/card/slice';
-import { useAppDispatch } from '../../../../../redux/store';
+import { deleteCardDescription, editCardDescription } from 'redux/ducks/card/slice';
+import { useAppDispatch } from 'redux/store';
 interface DescriptionProps {
   id: number;
   description: string;

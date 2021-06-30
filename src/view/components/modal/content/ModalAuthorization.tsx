@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form, Field } from 'react-final-form';
-import { logIn } from '../../../../redux/ducks/authorization/slice';
-import { useAppDispatch } from '../../../../redux/store';
+import { logIn } from 'redux/ducks/authorization/slice';
+import { useAppDispatch } from 'redux/store';
 
 export default function Authorization(): JSX.Element {
   const dispatch = useAppDispatch();

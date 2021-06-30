@@ -1,10 +1,10 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { authorizationSelector } from '../../../../../redux/ducks/authorization/selectors';
-import { deleteComment, editComment } from '../../../../../redux/ducks/comment/slice';
-import { useAppDispatch } from '../../../../../redux/store';
-import TrashIcon from '../../../../assets/delete-icon.svg';
+import { authorizationSelector } from 'redux/ducks/authorization/selectors';
+import { deleteComment, editComment } from 'redux/ducks/comment/slice';
+import { useAppDispatch } from 'redux/store';
+import TrashIcon from 'view/assets/delete-icon.svg';
 interface CommentProps {
   id: number;
   label: string;

@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { makeGetCardByCardIdSelector } from '../../../redux/ducks/card/selectors';
-import { deleteCard, editCard } from '../../../redux/ducks/card/slice';
-import { makeGetCommentCountByCardId } from '../../../redux/ducks/comment/selectors';
-import { useAppDispatch } from '../../../redux/store';
-import TrashIcon from '../../assets/delete-icon.svg';
+import { makeGetCardByCardIdSelector } from 'redux/ducks/card/selectors';
+import { deleteCard, editCard } from 'redux/ducks/card/slice';
+import { makeGetCommentCountByCardId } from 'redux/ducks/comment/selectors';
+import { useAppDispatch } from 'redux/store';
+import TrashIcon from 'view/assets/delete-icon.svg';
 import ModalCard from '../modal/content/ModalCard/ModalCard';
 import Modal from '../modal/Modal';
+import { RootState } from 'redux/ducks/rootReducer';
 
 interface CardProps {
   cardId: number;
@@ -17,10 +18,10 @@ interface CardProps {
 const Card = ({ cardId, listId }: CardProps): JSX.Element => {
   const [openModal, setOpenModal] = useState(false);
   const getCardByListIdSelector = useMemo(makeGetCardByCardIdSelector, []);
-  const [{ label }] = useSelector((state) => getCardByListIdSelector(state, cardId));
+  const [{ label }] = useSelector((state: RootState) => getCardByListIdSelector(state, cardId));
   const dispatch = useAppDispatch();
   const getCommentByCardId = useMemo(makeGetCommentCountByCardId, []);
-  const comment = useSelector((state) => getCommentByCardId(state, cardId));
+  const comment = useSelector((state: RootState) => getCommentByCardId(state, cardId));
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(editCard({ id: cardId, text: e.target.value }));
