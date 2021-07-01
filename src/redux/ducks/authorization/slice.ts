@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { NameSlices } from '../enum';
 
 interface AuthorizationState {
   name: string;
@@ -10,7 +11,7 @@ const initialState = {
 } as AuthorizationState;
 
 const authorizationSlice = createSlice({
-  name: 'authorization',
+  name: NameSlices.AUTHORIZATION,
   initialState,
   reducers: {
     logIn: (state, action: PayloadAction<string>): void => {

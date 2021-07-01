@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import _ from 'lodash';
+import { NameSlices } from '../enum';
 
 interface InitialState {
   id: number;
@@ -14,7 +15,7 @@ const initialState = [
 ] as Array<InitialState>;
 
 const cardSlice = createSlice({
-  name: 'card',
+  name: NameSlices.CARD,
   initialState,
   reducers: {
     addCard: (

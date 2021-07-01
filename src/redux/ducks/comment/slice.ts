@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import _ from 'lodash';
+import { NameSlices } from '../enum';
 
 interface CommentState {
   id: number;
@@ -12,7 +13,7 @@ const initialState = [
 ] as Array<CommentState>;
 
 const commentSlice = createSlice({
-  name: 'comment',
+  name: NameSlices.COMMENT,
   initialState,
   reducers: {
     deleteComment: (state, action: PayloadAction<number>): Array<CommentState> => {

@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { NameSlices } from '../enum';
 export interface ListState {
   id: number;
   title: string;
@@ -14,7 +15,7 @@ const initialState = [
 ] as Array<ListState>;
 
 const listSlice = createSlice({
-  name: 'list',
+  name: NameSlices.LIST,
   initialState,
   reducers: {
     editTitle: (state, action: PayloadAction<{ id: number; title: string }>): Array<ListState> => {
